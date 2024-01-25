@@ -88,7 +88,8 @@ import {
   cilUser,
   cilUserFemale,
   cilUserFollow,
-  cilUserUnfollow
+  cilUserUnfollow,
+  
 } from '@coreui/icons';
 
 export const iconSubset = {

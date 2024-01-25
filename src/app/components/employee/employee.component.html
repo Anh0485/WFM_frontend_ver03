@@ -1,0 +1,103 @@
+<div class="container">
+    <div class="create-employee">
+        <!-- Button trigger modal create employee -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEmployee">
+            Create employee
+        </button>
+    </div>
+    <div class="table-employee">
+        <table cTable hover>
+            <thead>
+            <tr>
+              <th scope="col">EmployeeID</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name </th>
+              <th scope="col">Email</th>
+              <th scope="col">Birthday</th>
+              <th scope="col">Address</th>
+              <th scope="col">PhoneNumber</th>
+              <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>&#64;mdo</td>
+              <td>Otto</td>
+              <td>Otto</td>
+              <td>Otto</td>
+              <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                    </button>   
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#viewEmployee">
+                            View
+                        </button>
+                      </a>
+                      <a class="dropdown-item">Edit</a>
+                      <a class="dropdown-item" href="">
+                        <button type="button" class="btn">
+                            <svg cIcon name="cil-trash" size="s"></svg>
+                        </button>
+                      </a>
+                    </div>
+                  </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+    </div>
+
+
+
+</div>
+
+<!-- Modal create employee -->
+<div class="modal fade" id="createEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  
+  <!-- Modal view employee-->
+  <div class="modal fade" id="viewEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">View</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+

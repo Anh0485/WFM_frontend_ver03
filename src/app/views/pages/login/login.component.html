@@ -1,61 +1,61 @@
-<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
-  <c-container>
-    <c-row class="justify-content-center">
-      <c-col md="8">
-        <c-card-group>
-          <c-card class="p-4">
-            <c-card-body>
-              <form cForm>
-                <h1>Login</h1>
-                <p class="text-medium-emphasis">Sign In to your account</p>
-                <c-input-group class="mb-3">
-                  <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                  </span>
-                  <input autoComplete="username" cFormControl placeholder="Username" />
-                </c-input-group>
-                <c-input-group class="mb-4">
-                  <span cInputGroupText>
-                    <svg cIcon name="cilLockLocked"></svg>
-                  </span>
-                  <input
-                    autoComplete="current-password"
-                    cFormControl
-                    placeholder="Password"
-                    type="password"
-                  />
-                </c-input-group>
-                <c-row>
-                  <c-col xs="6">
-                    <button cButton class="px-4" color="primary">
-                      Login
-                    </button>
-                  </c-col>
-                  <c-col class="text-right" xs="6">
-                    <button cButton class="px-0" color="link">
-                      Forgot password?
-                    </button>
-                  </c-col>
-                </c-row>
-              </form>
-            </c-card-body>
-          </c-card>
-          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
-            <c-card-body class="text-center">
-              <div>
-                <h2>Sign up</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
-                  Register Now!
-                </button>
+<div class="outer">
+  <div class="container">
+      <div class="row">
+          <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+              <div class="panel border bg-white">
+                  <div class="panel-heading">
+                      <h3 class="pt-3 front-weight-bold" style="font-size: 35px;">Login</h3>
+                  </div>
+                  <div class="panel-body p-3">
+                      <div class="alert alert-danger" *ngIf="errorMessage">
+                          {{errorMessage}}
+                      </div>
+
+                      <form #login="ngForm" [formGroup]="loginForm" (ngSubmit)="loginUser(login.value)">
+                          <div class="form-group pt-3">
+                              <div class="input-field">
+                                  <span class="fa fa-user p-2"></span>
+                                  <input type="text" placeholder="Username" formControlName="username" name="username"
+                                      ngModel required>
+
+                              </div>
+                              <span class="text-danger"
+                                  *ngIf="loginForm.controls['username'].dirty && loginForm.hasError('required','username')">username
+                                  is required</span>
+                          </div>
+                          <div class="form-group pt-3">
+                              <div class="input-field">
+                                  <span class="fa fa-lock p-2"></span>
+                                  <input [type]="type" placeholder="password" formControlName="password"
+                                      name="password" ngModel required>
+                                  <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span>
+                              </div>
+                              <span class="text-danger" [ngStyle]="{'color': 'red ! imppotant'}"
+                                  *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">password
+                                  is required</span>
+                          </div>
+                          <div class="form-inline fr mt-4">
+                              <a id="forget" class="font-weight-bold" routerLink="/verify">Forget Password?</a>
+                          </div>
+                          <button type="submit" class="btn btn-primary btn-block mt-4 w-100"
+                              [disabled]="!loginForm.valid">Login</button>
+                          <div class="text-center pt-4 text-muted">Don't have Account? <a id="forget"
+                                  routerLink="/register">Sign Up</a></div>
+                      </form>
+                  </div>
+                  <div class="mx-3 my-2 py-2 bordert">
+                      <div class="text-center py-3">
+                          <a href="http://www.google.com" target="_blank" class="px-2"> <img
+                                  src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png"
+                                  alt=""></a>
+                          <a href="http://www.github.com" target="_blank" class="px-2"> <img
+                                  src="https://www.freepnglogos.com/uploads/512x512-logo-png/512x512-logo-github-icon-35.png"
+                                  alt=""></a>
+
+                      </div>
+                  </div>
               </div>
-            </c-card-body>
-          </c-card>
-        </c-card-group>
-      </c-col>
-    </c-row>
-  </c-container>
+          </div>
+      </div>
+  </div>
 </div>
