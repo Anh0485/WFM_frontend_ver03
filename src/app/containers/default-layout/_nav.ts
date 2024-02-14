@@ -29,6 +29,15 @@ export const navItems: INavData[] = [
     // }
   },
   {
+    name: 'Shift',
+    url: '/shift',
+    iconComponent: { name: 'cil-spreadsheet' },
+    // badge: {
+    //   color: 'info',
+    //   text: 'NEW'
+    // }
+  },
+  {
     title: true,
     name: 'Theme'
   },

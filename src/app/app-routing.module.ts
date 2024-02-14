@@ -45,6 +45,11 @@ const routes: Routes = [
         import('./components/tenant/tenant.module').then((m)=> m.TenantModule)
       },
       {
+        path:'shift',
+        loadChildren:() => 
+        import('./components/shift/shift.module').then((m)=> m.ShiftModule)
+      },
+      {
         path: 'theme',
         loadChildren: () =>
           import('./views/theme/theme.module').then((m) => m.ThemeModule)
