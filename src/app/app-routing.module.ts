@@ -40,6 +40,11 @@ const routes: Routes = [
         import('./components/employee/employee.module').then((m)=> m.EmployeeModule)
       },
       {
+        path:'tenant',
+        loadChildren:() => 
+        import('./components/tenant/tenant.module').then((m)=> m.TenantModule)
+      },
+      {
         path: 'theme',
         loadChildren: () =>
           import('./views/theme/theme.module').then((m) => m.ThemeModule)

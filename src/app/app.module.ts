@@ -3,7 +3,7 @@ import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@a
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
@@ -39,6 +39,7 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { LoginComponent } from './views/pages/login/login.component';
+import { MyInterceptorInterceptor } from './interceptor/http-interceptor.interceptor';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -83,6 +84,11 @@ const APP_CONTAINERS = [
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MyInterceptorInterceptor,
+      multi: true
     },
     IconSetService,
     Title

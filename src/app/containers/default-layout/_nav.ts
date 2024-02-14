@@ -20,6 +20,15 @@ export const navItems: INavData[] = [
     // }
   },
   {
+    name: 'Tenant',
+    url: '/tenant',
+    iconComponent: { name: 'cilHome' },
+    // badge: {
+    //   color: 'info',
+    //   text: 'NEW'
+    // }
+  },
+  {
     title: true,
     name: 'Theme'
   },

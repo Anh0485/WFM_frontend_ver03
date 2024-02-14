@@ -12,7 +12,7 @@ export class LoginService {
   private userSubject: BehaviorSubject<User | null>;
   public user: Observable<User | null>;
   private apiUrl = 'http://localhost:5000/api/account/login';
-  private tokenn: string = '';
+  private token: string = '';
 
   constructor(private http: HttpClient, private router: Router) {
     this.userSubject = new BehaviorSubject(
@@ -24,6 +24,7 @@ export class LoginService {
   login(data: any) {
     return this.http.post<User>(this.apiUrl, data).pipe(
       map((user) => {
+        console.log('login',user)
         localStorage.setItem('token', user.token);
         this.userSubject.next(user);
         return user;
@@ -45,7 +46,7 @@ export class LoginService {
     return this.http
       .post('http://localhost:5000/api/account/logout', {})
       .subscribe((result: any) => {
-        console.log(this.tokenn);
+        console.log(this.token);
         localStorage.removeItem('token');
         this.router.navigate(['/login']);
         window.location.reload();
@@ -53,9 +54,9 @@ export class LoginService {
   }
 
   getToken() {
-    if (!this.tokenn) {
-      this.tokenn = localStorage.getItem('token') ?? '';
+    if (!this.token) {
+      this.token = localStorage.getItem('token') ?? '';
     }
-    return this.tokenn;
+    return this.token;
   }
 }
