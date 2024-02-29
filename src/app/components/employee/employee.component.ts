@@ -76,7 +76,6 @@ export class EmployeeComponent implements OnInit {
 
   openEdit(content: TemplateRef<any>, employee: any) {
     this.editEmployees = { ...employee };
-    console.log('edit:', this.editEmployees);
     this.editForm.setValue({
       FirstName: this.editEmployees.FirstName,
       LastName: this.editEmployees.LastName,

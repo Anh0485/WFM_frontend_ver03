@@ -8,6 +8,7 @@ import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 import { AuthGuard } from './auth/auth.guard';
 import { EmployeeModule } from './components/employee/employee.module';
+import { WorkscheduleModule } from './components/workschedule/workschedule.module';
 
 const routes: Routes = [
   {
@@ -48,6 +49,16 @@ const routes: Routes = [
         path:'shift',
         loadChildren:() => 
         import('./components/shift/shift.module').then((m)=> m.ShiftModule)
+      },
+      {
+        path:'workschedule',
+        loadChildren:() => 
+        import('./components/workschedule/workschedule.module').then((m)=> m.WorkscheduleModule)
+      },
+      {
+        path:'overtime',
+        loadChildren:() => 
+        import('./components/overtime/overtime.module').then((m)=> m.OvertimeModule)
       },
       {
         path: 'theme',

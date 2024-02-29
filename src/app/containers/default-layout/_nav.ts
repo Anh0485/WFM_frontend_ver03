@@ -38,6 +38,24 @@ export const navItems: INavData[] = [
     // }
   },
   {
+    name: 'Workschedule',
+    url: '/workschedule',
+    iconComponent: { name: 'cilCalendar'},
+    // badge: {
+    //   color: 'info',
+    //   text: 'NEW'
+    // }
+  },
+  {
+    name: 'Overtime',
+    url: '/overtime',
+    iconComponent: { name: 'cilCalendar'},
+    // badge: {
+    //   color: 'info',
+    //   text: 'NEW'
+    // }
+  },
+  {
     title: true,
     name: 'Theme'
   },
