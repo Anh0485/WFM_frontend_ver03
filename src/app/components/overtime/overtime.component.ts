@@ -9,11 +9,17 @@ import { DatePipe } from '@angular/common';
   styleUrl: './overtime.component.scss',
 })
 export class OvertimeComponent implements OnInit {
+  active = 1;
   overtimes!: any[];
+  pendingOT!: any[];
+  approvedOT!: any[];
+  rejectedOT!: any[];
   editOvertime: any = {};
   formattedDate!: string | null;
   createForm!: FormGroup;
   editForm!: FormGroup;
+  approved: string = 'Approved';
+  reject: string = 'Reject'
   private modalService = inject(NgbModal);
 
   constructor(
@@ -34,6 +40,9 @@ export class OvertimeComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getAllOT();
+    this.getPendingOT();
+    this.getApprovedOT();
+    this.getRejectOT();
   }
 
   getAllOT() {
@@ -44,6 +53,55 @@ export class OvertimeComponent implements OnInit {
       },
     });
   }
+
+  getPendingOT() {
+    this.otService.getPendingOT().subscribe({
+      next: (item) => {
+        console.log('item', item.overtime);
+        this.pendingOT = item.pending;
+      },
+    });
+  }
+
+  getApprovedOT() {
+    this.otService.getApprovedOT().subscribe({
+      next: (item) => {
+        console.log('item', item.overtime);
+        this.approvedOT = item.approved;
+      },
+    });
+  }
+
+  getRejectOT() {
+    this.otService.getRejectOT().subscribe({
+      next: (item) => {
+        console.log('item', item);
+        this.rejectedOT = item.reject;
+      },
+    });
+  }
+
+
+
+  onApprovedClick(id: any): void{
+    this.otService.reviewOT(id, this.approved).subscribe({
+      next: (val) => {
+        alert('approved successfully')
+        this.getPendingOT();
+      }
+    })
+  }
+
+  onRejectClick(id: any): void{
+    this.otService.reviewOT(id, this.reject).subscribe({
+      next: (val) => {
+        alert('reject successfully')
+        this.getPendingOT();
+      }
+    })
+  }
+
+
 
   openModalDialogCustomClass(content: TemplateRef<any>) {
     this.modalService.open(content, { modalDialogClass: 'dark-modal' });
@@ -68,9 +126,25 @@ export class OvertimeComponent implements OnInit {
     this.modalService.open(content, { modalDialogClass: 'dark-modal' });
   }
 
-  deleteOT(id: number) {}
+  deleteOT(id: number) {
+    this.otService.deleteOT(id).subscribe({
+      next:(res)=>{
+        alert('delete overtime successfully');
+        this.getApprovedOT();
+        this.getRejectOT();
+      }
+    })
+  }
 
-  onSubmitCreate() {}
+  onSubmitCreate() {
+    console.log(this.createForm.value);
+    this.otService.createdOT(this.createForm.value).subscribe({
+      next: (val)=>{
+        alert('create overtime successfully');
+        this.getPendingOT();
+      }
+    })
+  }
 
   onSubmitEdit() {}
 }
