@@ -20,7 +20,9 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { EmployeeComponent } from './employee.component';
 import { WidgetsModule } from '../../views/widgets/widgets.module';
 import { EmployeeRoutingModule } from './employee-routing.module';
-
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 @NgModule({
   imports: [
     EmployeeRoutingModule,
@@ -39,7 +41,8 @@ import { EmployeeRoutingModule } from './employee-routing.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule
+    WidgetsModule,
+    ToastrModule.forRoot(),
   ],
   declarations: [EmployeeComponent]
 })

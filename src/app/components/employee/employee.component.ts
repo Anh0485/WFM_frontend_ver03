@@ -5,6 +5,7 @@ import { BackendResponse } from 'src/app/model/getModule';
 import { TenantService } from '../../services/tenants.service';
 import { FormGroup, FormBuilder, Validators, NgModel } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -29,7 +30,7 @@ export class EmployeeComponent implements OnInit {
   };
 
   searchTerm: string = '';
-
+  message: string = '';
   createForm!: FormGroup;
   editForm!: FormGroup;
 
@@ -38,7 +39,8 @@ export class EmployeeComponent implements OnInit {
   constructor(
     private employeeService: EmployeeService,
     private tenantService: TenantService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService
   ) {
     (this.createForm = this.fb.group({
       FirstName: ['', Validators.required],
@@ -92,9 +94,11 @@ export class EmployeeComponent implements OnInit {
     console.log(this.createForm.value);
     if (this.createForm.valid) {
       this.employeeService.addEmployee(this.createForm.value).subscribe({
-        next: (val: any) => {
-          alert('create employee successfully');
-          window.location.reload();
+        next: (item) => {
+          this.message = item.message;
+          this.toastr.success('create employee successfully', 'Success', {
+            timeOut: 3000,})
+          this.getEmployees();
         },
       });
     }
@@ -175,8 +179,29 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.deleteEmployee(id).subscribe({
       next: (res) => {
         alert('delete employee successfulyy');
+        this.toastr.success('delete employee successfully', 'Success', {
+          timeOut: 3000,
+        });
         this.getEmployees();
       },error: console.log
     })
   }
+
+
+  showSuccess(){
+    this.toastr.success('create employee successfully', 'Success', {
+    timeOut: 3000,
+  });
+  }
+
+  showDeleteSuccess(){
+    console.log('click')
+    this.toastr.success('delete employee successfully', 'Success', {
+      timeOut: 3000,
+    });
+  }
+
 }
+
+
+

@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { getStyle } from '@coreui/utils';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { TotalService } from '../../../services/total.service';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -19,8 +20,12 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private totalService : TotalService
   ) {}
+
+  totalAgent: any;
+  totalSupervisor: any;
 
   data: any[] = [];
   options: any[] = [];
@@ -117,6 +122,25 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.setData();
+    this.getTotalAgent();
+    this.getTotalSupervisor();
+  }
+
+
+  getTotalSupervisor(){
+    this.totalService.getTotalSupervisor().subscribe({
+      next:(item) =>{
+        this.totalSupervisor = item.supervisor[0].total_supervisor;
+      }
+    })
+  }
+
+  getTotalAgent(){
+    this.totalService.getTotalAgent().subscribe({
+      next:(item)=>{
+        this.totalAgent = item.agent[0].total_agents;
+        console.log('agent', this.totalAgent);
+      }})
   }
 
   ngAfterContentInit(): void {

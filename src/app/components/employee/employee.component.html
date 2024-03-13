@@ -22,8 +22,9 @@
       <thead>
         <tr>
           <th scope="col">EmployeeID</th>
-          <th scope="col">First Name</th>
+          <th scope="col">FirstName</th>
           <th scope="col">Last Name </th>
+          <th scope="col">Role</th>
           <th scope="col">Email</th>
           <th scope="col">Birthday</th>
           <th scope="col">Address</th>
@@ -36,6 +37,7 @@
           <th scope="row">{{item.EmployeeID}}</th>
           <td>{{item.FirstName}}</td>
           <td>{{item.LastName}}</td>
+          <td>{{item.RoleName}}</td>
           <td>{{item.Email}}</td>
           <td>{{item.Birthday}}</td>
           <td>{{item.Address}}</td>
@@ -59,10 +61,14 @@
 
 </div>
 
+
+
+
+
 <!-- Modal create employee -->
 <ng-template #createFormModal let-modal>
 	<div class="modal-header">
-		<h4 class="modal-title">Create</h4>
+		<h4 class="modal-title">Create Employee</h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body">

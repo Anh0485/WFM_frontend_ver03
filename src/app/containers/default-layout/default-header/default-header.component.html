@@ -28,20 +28,21 @@
       </c-nav-item>
     </c-header-nav>
 
+    <c-header-nav>
+      <div style="margin-top: -6px;margin-right: 10px;">
+        <span style="font-size: 24px; font-weight: 600;">
+          {{currentDate | date:'dd.MM'}}
+        </span>
+       <span style="font-size: 24px; font-weight:600 ;">
+        {{currentDate | date: 'HH:mm:ss'}}
+       </span>
+      </div>
+    </c-header-nav>
+
     <c-header-nav class="d-none d-lg-flex">
       <c-nav-item>
         <a routerLink="./" cNavLink>
           <svg cIcon name="cilBell" size="lg"></svg>
-        </a>
-      </c-nav-item>
-      <c-nav-item>
-        <a routerLink="./" cNavLink>
-          <svg cIcon name="cilList" size="lg"></svg>
-        </a>
-      </c-nav-item>
-      <c-nav-item>
-        <a routerLink="./" cNavLink>
-          <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
         </a>
       </c-nav-item>
     </c-header-nav>
@@ -66,14 +67,18 @@
       cDropdownToggle
       class="py-0"
     >
+    <div style="display: flex ;">
       <c-avatar
-        cTextColor="primary"
-        shape="rounded-1"
-        size="md"
-        src="./assets/img/avatars/8.jpg"
-        status="success"
-      >
-      </c-avatar>
+      cTextColor="primary"
+      shape="rounded-1"
+      size="md"
+      src="./assets/img/avatars/8.jpg"
+      status="success"
+    >
+    </c-avatar>
+    <p style="margin-top: 7px; margin-left: 5px; font-weight: 600;">{{user}}<span>[{{RoleName}}]</span></p>
+    </div>
+   
     </button>
     <ul cDropdownMenu class="pt-0 pr-5 w-auto">
       <li>

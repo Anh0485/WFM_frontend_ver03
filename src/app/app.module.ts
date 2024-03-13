@@ -40,7 +40,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { LoginComponent } from './views/pages/login/login.component';
 import { MyInterceptorInterceptor } from './interceptor/http-interceptor.interceptor';
-
+import { ToastrModule } from 'ngx-toastr';
 const APP_CONTAINERS = [
   DefaultFooterComponent,
   DefaultHeaderComponent,
@@ -78,7 +78,8 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     {

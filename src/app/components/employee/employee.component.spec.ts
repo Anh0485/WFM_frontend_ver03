@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmployeeComponent } from './employee.component';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('EmployeeComponent', () => {
   let component: EmployeeComponent;
@@ -8,7 +9,9 @@ describe('EmployeeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EmployeeComponent]
+      imports: [EmployeeComponent,
+      ToastrModule.forRoot()
+      ]
     })
     .compileComponents();
     
