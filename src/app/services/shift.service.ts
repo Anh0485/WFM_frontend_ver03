@@ -25,4 +25,7 @@ export class ShiftService {
     return this._http.delete(`http://localhost:5000/api/shift/${id}`)
   }
 
+  getNumberOfEmployeeOnTime(): Observable<any>{
+    return this._http.get('http://localhost:5000/api/shift/workschedule/ontime')
+  }
 }

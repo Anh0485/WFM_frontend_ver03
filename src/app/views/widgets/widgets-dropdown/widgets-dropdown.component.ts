@@ -10,6 +10,7 @@ import {
 import { getStyle } from '@coreui/utils';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { TotalService } from '../../../services/total.service';
+import { ShiftService } from '../../../services/shift.service';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -19,9 +20,15 @@ import { TotalService } from '../../../services/total.service';
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
+  currentDate !:Date 
+  private timer: any;
+  date: Date  = new Date();
+  employeeOnTime !: string;
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private totalService : TotalService
+    private totalService : TotalService,
+    private shiftService : ShiftService
   ) {}
 
   totalAgent: any;
@@ -124,8 +131,35 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     this.setData();
     this.getTotalAgent();
     this.getTotalSupervisor();
+    this.updateTime();
+      this.timer = setInterval(()=>{
+        this.updateTime();
+      },1000)
+    this.getNumberOfEmployeeOnTime();
   }
 
+  
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+
+  getNumberOfEmployeeOnTime (){
+   
+    this.shiftService.getNumberOfEmployeeOnTime().subscribe({
+      next:(item) => {
+        this.employeeOnTime = item.attent[0].total_ontime;
+      }
+    })
+
+  }
+
+  updateTime(): void {
+    this.currentDate = new Date();
+  }
 
   getTotalSupervisor(){
     this.totalService.getTotalSupervisor().subscribe({

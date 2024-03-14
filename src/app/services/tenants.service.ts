@@ -26,4 +26,8 @@ export class TenantService {
     return this._http.put(`http://localhost:5000/api/tenant/${id}`,data)
   }
 
+  getTenantID(): Observable<any>{
+    return this._http.get('http://localhost:5000/api/tenant/getTeantID')
+  }
+
 }

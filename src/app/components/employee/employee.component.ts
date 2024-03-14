@@ -70,6 +70,7 @@ export class EmployeeComponent implements OnInit {
     this.getEmployees();
     this.getAllRole();
     this.getAllTenant();
+    this.getTenantID();
   }
 
   openModalDialogCustomClass(content: TemplateRef<any>) {
@@ -147,6 +148,14 @@ export class EmployeeComponent implements OnInit {
         console.error('Error fetching module permissions', error);
       }
     );
+  }
+
+  getTenantID(){
+    this.tenantService.getTenantID().subscribe({
+      next: (item) => {
+        console.log('item',item.TenantID[0].TenantID);
+      }
+    })
   }
 
   getEmployees() {

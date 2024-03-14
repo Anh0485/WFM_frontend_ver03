@@ -40,5 +40,7 @@ export class EmployeeService {
   getModulePermission(): Observable<BackendResponse>{
     return this._http.get<BackendResponse>('http://localhost:5000/api/module/permission');
   }
+
+  
   
 }

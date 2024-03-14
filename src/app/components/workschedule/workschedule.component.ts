@@ -79,7 +79,6 @@ export class WorkscheduleComponent implements OnInit {
   getAllSchedule(){
     this.wscheduleServive.getAllWSchedule().subscribe(item=>{
       this.schedules = item.allWSchedule;
-      console.log('schedule', this.schedules)
     })
   }
 
@@ -167,7 +166,8 @@ export class WorkscheduleComponent implements OnInit {
     forkJoin(this.observables).subscribe(
       () => {
         alert('created shift successfully');
-        // window.location.reload();
+        // this.getAllSchedule();
+        window.location.reload();
       },
       error => {
         console.error(error);
