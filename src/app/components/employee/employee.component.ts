@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { EmployeeService } from '../../services/employee.service';
 import { BackendResponse } from 'src/app/model/getModule';
 import { TenantService } from '../../services/tenants.service';
-import { FormGroup, FormBuilder, Validators, NgModel } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, NgModel, FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-
-
+import { navItems } from '../../containers/default-layout/_nav';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -21,6 +21,9 @@ export class EmployeeComponent implements OnInit {
   tenants!: any[];
   editEmployees: any = {};
   filteredEmployees: any[] = [];
+  isSuperAdmin: boolean = false;
+  show = true;
+  roleName!:string;
   permissionResponse!: BackendResponse;
   access!: {
     canAdd: boolean;
@@ -28,7 +31,8 @@ export class EmployeeComponent implements OnInit {
     canEdit: boolean;
     canDelete: boolean;
   };
-
+  tenantID  = new FormControl();
+  user: any;
   searchTerm: string = '';
   message: string = '';
   createForm!: FormGroup;
@@ -40,6 +44,7 @@ export class EmployeeComponent implements OnInit {
     private employeeService: EmployeeService,
     private tenantService: TenantService,
     private fb: FormBuilder,
+    private userService : UserService,
     private toastr: ToastrService
   ) {
     (this.createForm = this.fb.group({
@@ -71,6 +76,7 @@ export class EmployeeComponent implements OnInit {
     this.getAllRole();
     this.getAllTenant();
     this.getTenantID();
+    this.getUser();
   }
 
   openModalDialogCustomClass(content: TemplateRef<any>) {
@@ -154,9 +160,13 @@ export class EmployeeComponent implements OnInit {
     this.tenantService.getTenantID().subscribe({
       next: (item) => {
         console.log('item',item.TenantID[0].TenantID);
+        this.tenantID = item.TenantID[0].TenantID;
+        console.log('iid', this.tenantID);
+        console.log('idd', item.TenantID[0]);
+        (item.TenantID[0].TenantID === null) ? this.createForm.patchValue({TenantID : ''}) : this.createForm.patchValue({TenantID : item.TenantID[0].TenantID}) 
       }
     })
-  }
+  } 
 
   getEmployees() {
     this.employeeService.getEmployeeList().subscribe((item) => {
@@ -169,7 +179,6 @@ export class EmployeeComponent implements OnInit {
   getAllRole() {
     this.employeeService.getAllRole().subscribe(
       (item) => {
-        console.log('item', item);
         this.roles = item;
       },
       (error) => {
@@ -183,6 +192,9 @@ export class EmployeeComponent implements OnInit {
       this.tenants = item.getTenants[0];
     });
   }
+
+
+  
 
   deleteEmployee(id:number){
     this.employeeService.deleteEmployee(id).subscribe({
@@ -209,6 +221,26 @@ export class EmployeeComponent implements OnInit {
       timeOut: 3000,
     });
   }
+
+  getUser(){
+    this.userService.getUserProfile().subscribe({
+      next:(item) => {
+        console.log('user', item.user[0]);
+         this.roleName = item.user[0].RoleName;
+      }
+    })
+  }
+
+  isUserSuperAdmin(): boolean{
+    if(this.roleName == "SuperAdmin"){
+      this.isSuperAdmin = true
+    }
+    return this.isSuperAdmin
+  }
+ 
+
+
+ 
 
 }
 

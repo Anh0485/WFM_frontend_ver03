@@ -76,7 +76,7 @@
             <div class="form-row-modal">
               <div class="form-group">
                 <label for="">Fist Name</label>
-                <input type="text" formControlName="FirstName" class="form-control" >
+                <input type="text" formControlName="FirstName" class="form-control" required>
               </div>
               <div class="form-group ">
                 <label for="">Last Name</label>
@@ -123,14 +123,14 @@
             <div class="form-row-modal">
               <div class="form-group">
                 <label for="" style="margin-right: 10px;">Role:</label>
-                <select formControlName="RoleID" class="custom-select" name="" id="">
+                <select formControlName="RoleID" class="custom-select" name="" >
                   <option *ngFor="let role of roles" [value]="role.RoleID">{{role.RoleName}}</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group" *ngIf="isUserSuperAdmin()" >
                 <label for="" style="margin-right: 10px;">Tenant:</label>
-                <select formControlName="TenantID" class="custom-select" name="" id="">
-                  <option *ngFor="let tenant of tenants" [value]="tenant.TenantID">{{tenant.TenantName}}</option>
+                <select formControlName="TenantID" class="custom-select" >
+                  <option *ngFor="let tenant of tenants" [value]="tenant.TenantID" >{{tenant.TenantName}}</option>
                 </select>
               </div>
             </div>
