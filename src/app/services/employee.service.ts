@@ -22,7 +22,7 @@ export class EmployeeService {
   }
 
   getEmployeeList(): Observable<any> {
-    return this._http.get('http://localhost:5000/api/employee');
+    return this._http.get('http://localhost:5000/api/employee/byTenant');
   }
 
   getAllRole(): Observable<any>{

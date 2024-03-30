@@ -21,9 +21,9 @@
     routerLink="./"
   />
 
-  <ng-scrollbar pointerEventsMethod="scrollbar">
+  <ng-scrollbar *ngIf="navItem && navItem.length" pointerEventsMethod="scrollbar">
     <c-sidebar-nav
-      [navItems]="navItems"
+      [navItems]="navItem"
       dropdownMode="close"
     />
   </ng-scrollbar>

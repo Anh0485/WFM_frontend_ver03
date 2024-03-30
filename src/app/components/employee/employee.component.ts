@@ -53,7 +53,7 @@ export class EmployeeComponent implements OnInit {
       Birthday: ['', Validators.required],
       Email: ['', Validators.required],
       Gender: ['', Validators.required],
-      Address: ['', Validators.required],
+      address: ['', Validators.required],
       PhoneNumber: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -66,7 +66,7 @@ export class EmployeeComponent implements OnInit {
         Birthday: ['', Validators.required],
         Email: ['', Validators.required],
         Gender: ['', Validators.required],
-        Address: ['', Validators.required],
+        address: ['', Validators.required],
         PhoneNumber: ['', Validators.required],
       }));
   }
@@ -85,13 +85,14 @@ export class EmployeeComponent implements OnInit {
 
   openEdit(content: TemplateRef<any>, employee: any) {
     this.editEmployees = { ...employee };
+    console.log('editEmployee', this.editEmployees)
     this.editForm.setValue({
       FirstName: this.editEmployees.FirstName,
       LastName: this.editEmployees.LastName,
       Birthday: this.editEmployees.Birthday,
       Email: this.editEmployees.Email,
       Gender: this.editEmployees.Gender,
-      Address: this.editEmployees.Address,
+      address: this.editEmployees.address,
       PhoneNumber: this.editEmployees.PhoneNumber,
     });
     this.modalService.open(content, { modalDialogClass: 'dark-modal' });
@@ -172,7 +173,7 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.getEmployeeList().subscribe((item) => {
       this.employees = item;
       console.log('employee', this.employees);
-      this.filteredEmployees = item;
+      // this.filteredEmployees = item;
     });
   }
 

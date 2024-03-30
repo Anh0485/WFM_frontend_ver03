@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
 import { ShiftService } from 'src/app/services/shift.service';
 import { forkJoin } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-workschedule',
   templateUrl: './workschedule.component.html',
@@ -30,6 +31,7 @@ export class WorkscheduleComponent implements OnInit {
     private empService : EmployeeService,
     private channelService : ChannelService,
     private shiftService : ShiftService,
+    private userService : UserService,
     private fb: FormBuilder
   ){
     const today = new Date();
@@ -117,6 +119,10 @@ export class WorkscheduleComponent implements OnInit {
   openModalDialogCustomClass(content: TemplateRef<any>) {
 		this.modalService.open(content, { modalDialogClass: 'light-modal' });
 	}
+
+  getEmployee(){
+    
+  }
 
 
   
