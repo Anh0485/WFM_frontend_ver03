@@ -41,6 +41,9 @@ export class EmployeeService {
     return this._http.get<BackendResponse>('http://localhost:5000/api/module/permission');
   }
 
-  
+  getAgent(): Observable<any>{
+    return this._http.get('http://localhost:5000/api/employee/agent')
+  }
+
   
 }

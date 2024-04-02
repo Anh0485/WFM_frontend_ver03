@@ -16,6 +16,7 @@ import { UserService } from 'src/app/services/user.service';
 export class WorkscheduleComponent implements OnInit {
 
   employees!: any[];
+  agents!: any[];
   channels!: any[];
   shifts!: any[];
   schedules!: any[];
@@ -56,9 +57,10 @@ export class WorkscheduleComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getAllSchedule();
-    this.getAllEmployee();
+    // this.getAllEmployee();
     this.getAllChannel();
     this.getAllShift();
+    this.getAllAgent();
   }
 
   getAllEmployee(){
@@ -66,6 +68,15 @@ export class WorkscheduleComponent implements OnInit {
       next:(res)=>{
         this.employees = res;
         console.log('employees', this.employees);
+      }
+    })
+  }
+
+  getAllAgent(){
+    this.empService.getAgent().subscribe({
+      next:(res)=>{
+        this.agents = res.agent;
+        console.log('agent', this.agents);
       }
     })
   }

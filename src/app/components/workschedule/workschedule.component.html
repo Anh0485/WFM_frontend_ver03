@@ -77,7 +77,7 @@
         <div class="form-group">
           <label for="">Employee</label>
           <select  class="form-select" formControlName="EmployeeID">
-            <option *ngFor="let emp of employees" [value]="emp.EmployeeID">{{emp.EmployeeID}} - {{emp.FullName}}</option>
+            <option *ngFor="let emp of agents" [value]="emp.EmployeeID">{{emp.EmployeeID}} - {{emp.FullName}}</option>
           </select>
          
         </div>
