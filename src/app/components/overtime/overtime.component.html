@@ -37,7 +37,7 @@
               <th scope="col">Date</th>
               <th scope="col">Reason</th>
               <th scope="col">Status</th>
-              <th scope="col" style="text-align: center;">Action</th>
+              <th scope="col" *ngIf="checkRole()" style="text-align: center;">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -54,7 +54,7 @@
                   {{item.Status}}
                 </span>
               </td>
-              <td style="display: contents;">
+              <td *ngIf="checkRole()" style="display: contents;">
                 <button class="btn btn-primary btn-approved" (click)="onApprovedClick(item.OverTimeID)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
                     <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
@@ -71,7 +71,7 @@
       </div>
     </ng-template>
   </li>
-  <li [ngbNavItem]="2">
+  <li [ngbNavItem]="2" >
     <button ngbNavLink>Approve</button>
     <ng-template ngbNavContent>
       <div class="table">
@@ -84,7 +84,7 @@
               <th scope="col">Hour</th>
               <th scope="col">Date</th>
               <th scope="col">Status</th>
-              <th scope="col">Action</th>
+              <th scope="col" *ngIf="checkRole()">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -100,7 +100,7 @@
                   {{item.Status}}
                 </span>
               </td>
-              <td>
+              <td *ngIf="checkRole()">
                 <button class="btn btn-danger" style="color: white;" (click)="deleteOT(item.OverTimeID)">Delete</button>
               </td>
             </tr>
@@ -122,7 +122,7 @@
               <th scope="col">Hour</th>
               <th scope="col">Date</th>
               <th scope="col">Status</th>
-              <th scope="col">Action</th>
+              <th scope="col" *ngIf="checkRole()">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -138,7 +138,7 @@
                   {{item.Status}}
                 </span>
               </td>
-              <td>
+              <td *ngIf="checkRole()">
                 <button class="btn btn-danger" style="color: white;" (click)="deleteOT(item.OverTimeID)">Delete</button>
               </td>
             </tr>

@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OvertimeService } from '../../services/overtime.service';
 import { DatePipe } from '@angular/common';
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-overtime',
   templateUrl: './overtime.component.html',
@@ -19,13 +20,15 @@ export class OvertimeComponent implements OnInit {
   createForm!: FormGroup;
   editForm!: FormGroup;
   approved: string = 'Approved';
-  reject: string = 'Reject'
+  reject: string = 'Reject';
+  RoleName: string  = '';
   private modalService = inject(NgbModal);
 
   constructor(
     private fb: FormBuilder,
     private otService: OvertimeService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private userService: UserService
   ) {
     (this.createForm = this.fb.group({
       OvertimeDate: ['', Validators.required],
@@ -43,6 +46,7 @@ export class OvertimeComponent implements OnInit {
     this.getPendingOT();
     this.getApprovedOT();
     this.getRejectOT();
+    this.getRoleName();
   }
 
   getAllOT() {
@@ -79,6 +83,18 @@ export class OvertimeComponent implements OnInit {
         this.rejectedOT = item.reject;
       },
     });
+  }
+
+  getRoleName(){
+    this.userService.getUserProfile().subscribe({
+      next:(item) =>{
+        this.RoleName = item.user[0].RoleName;
+      }
+    })
+  }
+
+  checkRole(): boolean{
+    return this.RoleName === 'Supervisor' || this.RoleName ==='Admin' || this.RoleName === 'SuperAdmin'
   }
 
 
