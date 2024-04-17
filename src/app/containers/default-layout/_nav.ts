@@ -41,6 +41,26 @@ export const navItems: INavData[] = [
     
   },
   {
+    name: 'Report',
+    url: '/report',
+    iconComponent: { name: 'cil-puzzle' },
+    children: [
+      {
+        name: 'Works hours',
+        url: '/report/workhours'
+      },
+      {
+        name: 'Overtime hours',
+        url: '/report/overtimehours'
+      },
+      {
+        name: 'Number Of Tenant',
+        url: '/report/numberoftenant'
+      },
+     
+    ]
+  },
+  {
     title: true,
     name: 'Theme'
   },

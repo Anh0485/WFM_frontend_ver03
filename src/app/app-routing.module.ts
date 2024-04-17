@@ -61,6 +61,11 @@ const routes: Routes = [
         import('./components/overtime/overtime.module').then((m)=> m.OvertimeModule)
       },
       {
+        path:'report',
+        loadChildren:() => 
+        import('./components/report/report.module').then((m)=> m.ReportModule)
+      },
+      {
         path: 'theme',
         loadChildren: () =>
           import('./views/theme/theme.module').then((m) => m.ThemeModule)

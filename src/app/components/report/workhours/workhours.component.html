@@ -1,0 +1,99 @@
+<h2>Work hours Report</h2>
+<div class="box">
+    <div class="box-option">
+        <div class="form-group">
+            <label for="inputState">Employee</label>
+            <select id="inputState" class="form-control">
+                <option selected>All</option>
+                <option>...</option>
+            </select>
+        </div>
+    </div>
+    <div class="box-option">
+        <label>Date</label>
+        <form class="row row-cols-sm-auto">
+            <div class="col-12">
+                <div class="dp-hidden position-absolute">
+                    <div class="input-group">
+                        <input name="datepicker" class="form-control" ngbDatepicker #datepicker="ngbDatepicker"
+                            [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2"
+                            [dayTemplate]="t" outsideDays="hidden" [startDate]="fromDate!" tabindex="-1" />
+                        <ng-template #t let-date let-focused="focused">
+                            <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                                [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                                (mouseleave)="hoveredDate = null">
+                                {{ date.day }}
+                            </span>
+                        </ng-template>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input #dpFromDate class="form-control" placeholder="yyyy-mm-dd" name="dpFromDate"
+                        [value]="formatter.format(fromDate)"
+                        (input)="fromDate = validateInput(fromDate, dpFromDate.value)" />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()"
+                        type="button"></button>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="input-group">
+                    <input #dpToDate class="form-control" placeholder="yyyy-mm-dd" name="dpToDate"
+                        [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)" />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="datepicker.toggle()"
+                        type="button"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="box-option">
+        <div class="form-group">
+            <label for="inputState">Channel</label>
+            <select id="inputState" class="form-control">
+                <option selected>Choose...</option>
+                <option>...</option>
+            </select>
+        </div>
+    </div>
+    <div class="box-option">
+        <label for=""></label>
+        <button class="btn btn-primary btn-option">Submit</button>
+    </div>
+</div>
+<div class="report-table">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Employee</th>
+                <th scope="col">Channel</th>
+                <th scope="col">Total working hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (country of countries; track country.name) {
+            <tr>
+                <th scope="row">{{ country.id }}</th>
+                <td>
+                    <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
+                        [alt]="'The flag of ' + country.name" class="me-2" style="width: 20px" />
+                    {{ country.name }}
+                </td>
+                <td>{{ country.area | number }}</td>
+                <td>{{ country.population | number }}</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+            (pageChange)="refreshCountries()">
+        </ngb-pagination>
+
+        <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCountries()">
+            <option [ngValue]="2">2 items per page</option>
+            <option [ngValue]="4">4 items per page</option>
+            <option [ngValue]="6">6 items per page</option>
+        </select>
+    </div>
+</div>
