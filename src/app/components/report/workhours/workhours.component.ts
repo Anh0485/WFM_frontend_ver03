@@ -1,95 +1,20 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { WScheduleService } from 'src/app/services/workschedule.service';
+import { EmployeeService } from 'src/app/services/employee.service';
+import { ChannelService } from 'src/app/services/channel.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-interface Country {
-	id?: number;
-	name: string;
-	flag: string;
-	area: number;
-	population: number;
+
+interface WorkHour {
+	EmployeeID?: number;
+	fullname: string;
+	ChannelName: string;
+	TOTALWORKINGHOURS: number;
 }
 
-const COUNTRIES: Country[] = [
-	{
-		name: 'Russia',
-		flag: 'f/f3/Flag_of_Russia.svg',
-		area: 17075200,
-		population: 146989754,
-	},
-	{
-		name: 'France',
-		flag: 'c/c3/Flag_of_France.svg',
-		area: 640679,
-		population: 64979548,
-	},
-	{
-		name: 'Germany',
-		flag: 'b/ba/Flag_of_Germany.svg',
-		area: 357114,
-		population: 82114224,
-	},
-	{
-		name: 'Portugal',
-		flag: '5/5c/Flag_of_Portugal.svg',
-		area: 92090,
-		population: 10329506,
-	},
-	{
-		name: 'Canada',
-		flag: 'c/cf/Flag_of_Canada.svg',
-		area: 9976140,
-		population: 36624199,
-	},
-	{
-		name: 'Vietnam',
-		flag: '2/21/Flag_of_Vietnam.svg',
-		area: 331212,
-		population: 95540800,
-	},
-	{
-		name: 'Brazil',
-		flag: '0/05/Flag_of_Brazil.svg',
-		area: 8515767,
-		population: 209288278,
-	},
-	{
-		name: 'Mexico',
-		flag: 'f/fc/Flag_of_Mexico.svg',
-		area: 1964375,
-		population: 129163276,
-	},
-	{
-		name: 'United States',
-		flag: 'a/a4/Flag_of_the_United_States.svg',
-		area: 9629091,
-		population: 324459463,
-	},
-	{
-		name: 'India',
-		flag: '4/41/Flag_of_India.svg',
-		area: 3287263,
-		population: 1324171354,
-	},
-	{
-		name: 'Indonesia',
-		flag: '9/9f/Flag_of_Indonesia.svg',
-		area: 1910931,
-		population: 263991379,
-	},
-	{
-		name: 'Tuvalu',
-		flag: '3/38/Flag_of_Tuvalu.svg',
-		area: 26,
-		population: 11097,
-	},
-	{
-		name: 'China',
-		flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
-		area: 9596960,
-		population: 1409517397,
-	},
-];
+
 
 
 @Component({
@@ -124,24 +49,97 @@ const COUNTRIES: Country[] = [
 	`
 })
 
-export class WorkhoursComponent {
+export class WorkhoursComponent implements OnInit {
+
+	
+	workhours: WorkHour[] = [];
+	workhour: WorkHour [] = [];
+	agents!: any [];
+	channels!: any[];
+	startDate = '2024-02-01';
+	endDate = '2024-04-01'
 	
 	// pagination 
 	page = 1;
-	pageSize = 4;
-	collectionSize = COUNTRIES.length;
-	countries: Country[] = [];
+	pageSize = 2;
+	collectionSize = 0;
 
-	constructor(){
-		this.refreshCountries();
+	//filter
+	filterForm !: FormGroup;
+
+	constructor(	
+		private wschedule: WScheduleService,
+		private empService : EmployeeService,
+		private channelService : ChannelService,
+		private _fb: FormBuilder,
+	){
+		// this.refreshWorkHour();
+		this.filterForm = this._fb.group({
+			startDate: ['', Validators.required],
+			endDate: ['', Validators.required]
+		})
 	}
 
-	refreshCountries() {
-		this.countries = COUNTRIES.map((country, i) => ({ id: i + 1, ...country })).slice(
-			(this.page - 1) * this.pageSize,
-			(this.page - 1) * this.pageSize + this.pageSize,
-		);
+	ngOnInit(): void {
+		// this.getTotalWorkHour();
+		this.getAllAgent();
+		this.getAllChannel();
 	}
+	// getTotalWorkHour(){
+	// 	this.wschedule.getTotalWorkHour(this.startDate,this.endDate).subscribe({
+	// 		next:(item) => {
+	// 			this.workhours =  item.workHour;
+	// 			this.collectionSize = this.workhours.length;
+	// 		}
+	// 	})
+	// }
+	getAllAgent(){
+		this.empService.getAgent().subscribe({
+			next:(res)=>{
+				this.agents = res.agent;
+			}
+		})
+	}
+
+	getAllChannel(){
+		this.channelService.getAllChannel().subscribe({
+			next: (item)=>{
+				this.channels = item;
+			}
+		})
+	}
+
+
+	refreshWorkHour() {
+		const data = this.filterForm.value;
+		this.wschedule.getTotalWorkHour(data.startDate , data.endDate).subscribe({
+			next: (response) => {
+			  this.collectionSize = response.workHour.length; // Cập nhật tổng số mục
+			  this.workhours = response.workHour
+				.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize); // Cập nhật dữ liệu trên trang hiện tại
+			},
+			error: (error) => {
+			  console.error('Error fetching data:', error);
+			}
+		})
+	}
+
+	//onSubmit
+	onSubmit(){
+		const data = this.filterForm.value;
+		console.log('data', data)
+		if(data.startDate && data.endDate){
+			this.wschedule.getTotalWorkHour(data.startDate, data.endDate).subscribe({
+				next : (item) => {
+					console.log('item get total work hours', item.workHour);
+					this.workhours =  item.workHour;
+					this.collectionSize = this.workhours.length;
+				}
+			})
+		}
+	}
+
+	
 	//calendar
   calendar = inject(NgbCalendar);
 	formatter = inject(NgbDateParserFormatter);

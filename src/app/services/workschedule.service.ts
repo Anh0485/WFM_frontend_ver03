@@ -24,4 +24,7 @@ export class WScheduleService {
     return this._http.delete(`http://localhost:5000/api/shift/wschedule/${id}`)
   }
 
+  getTotalWorkHour(startDate: any, endDate: any): Observable<any>{
+    return this._http.get(`http://localhost:5000/api/shift/workschedule/totalWorkHour?startDate=${startDate}&endDate=${endDate}`)
+  }
 }
