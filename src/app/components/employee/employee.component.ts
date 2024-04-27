@@ -104,8 +104,12 @@ export class EmployeeComponent implements OnInit {
       this.employeeService.addEmployee(this.createForm.value).subscribe({
         next: (item) => {
           this.message = item.message;
-          this.toastr.success('create employee successfully', 'Success', {
-            timeOut: 3000,})
+          console.log('item',item);
+          if(item.errCode === -1){
+            this.showWarning(item.message);
+          } else if (item.errCode === 0){
+            this.showSuccess();
+          }
           this.getEmployees();
         },
       });
@@ -214,6 +218,13 @@ export class EmployeeComponent implements OnInit {
     this.toastr.success('create employee successfully', 'Success', {
     timeOut: 3000,
   });
+  }
+
+  showWarning(mess:string){
+    this.toastr.warning(`warning: ${mess}`
+    , 'Warning',   {
+      timeOut: 3000,
+    })
   }
 
   showDeleteSuccess(){
