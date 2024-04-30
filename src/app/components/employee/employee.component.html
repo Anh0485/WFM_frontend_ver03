@@ -1,103 +1,199 @@
 <div class="container">
-    <div class="create-employee">
-        <!-- Button trigger modal create employee -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEmployee">
-            Create employee
-        </button>
+  <div class="item-create-search">
+    <div class="div-create">
+      <!-- Button trigger modal create employee -->
+      <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEmployee">
+        Create employee
+      </button> -->
+      <button class="btn btn-outline-primary mb-2 me-2" (click)="openModalDialogCustomClass(createFormModal)">
+        Create Employee
+      </button>
     </div>
-    <div class="table-employee">
-        <table cTable hover>
-            <thead>
-            <tr>
-              <th scope="col">EmployeeID</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name </th>
-              <th scope="col">Email</th>
-              <th scope="col">Birthday</th>
-              <th scope="col">Address</th>
-              <th scope="col">PhoneNumber</th>
-              <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>&#64;mdo</td>
-              <td>Otto</td>
-              <td>Otto</td>
-              <td>Otto</td>
-              <td>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                    </button>   
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item">
-                        <button type="button" class="btn" data-toggle="modal" data-target="#viewEmployee">
-                            View
-                        </button>
-                      </a>
-                      <a class="dropdown-item">Edit</a>
-                      <a class="dropdown-item" href="">
-                        <button type="button" class="btn">
-                            <svg cIcon name="cil-trash" size="s"></svg>
-                        </button>
-                      </a>
-                    </div>
-                  </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-    </div>
-
-
-
-</div>
-
-<!-- Modal create employee -->
-<div class="modal fade" id="createEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-  
-  <!-- Modal view employee-->
-  <div class="modal fade" id="viewEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">View</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
+    <div class="search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+        </svg>
+        <input type="text"  class="input-search" placeholder="Seaching">
     </div>
   </div>
 
+  <div class="table">
+    <table cTable hover>
+      <thead>
+        <tr>
+          <th scope="col">EmployeeID</th>
+          <th scope="col">FirstName</th>
+          <th scope="col">Last Name </th>
+          <th scope="col">Role</th>
+          <th scope="col">Email</th>
+          <th scope="col">Birthday</th>
+          <th scope="col">Address</th>
+          <th scope="col">PhoneNumber</th>
+          <th scope="col" style="text-align: center;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of employees">
+          <th scope="row">{{item.EmployeeID}}</th>
+          <td>{{item.FirstName}}</td>
+          <td>{{item.LastName}}</td>
+          <td>{{item.RoleName}}</td>
+          <td>{{item.Email}}</td>
+          <td>{{item.Birthday}}</td>
+          <td>{{item.address}}</td>
+          <td>{{item.PhoneNumber}}</td>
+          <td>
+            <button class="btn btn-edit" style="color: blue;" (click)="openEdit(EditFormModal,item)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+              </svg>
+             </button>
+             <button type="button" (click)="deleteEmployee(item.EmployeeID)" class="btn btn-delete" style="color: red;">
+              <svg cIcon name="cil-trash" size="s"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+</div>
+
+
+
+
+
+<!-- Modal create employee -->
+<ng-template #createFormModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Create Employee</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form [formGroup]="createForm">
+            <div class="form-row-modal">
+              <div class="form-group">
+                <label for="">Fist Name</label>
+                <input type="text" formControlName="FirstName" class="form-control" required>
+              </div>
+              <div class="form-group ">
+                <label for="">Last Name</label>
+                <input type="text"  formControlName="LastName" class="form-control" id="inputPassword4">
+              </div>
+            </div>
+            <div class="form-row-modal">
+              <div class="form-group">
+                <label for="">Birthday</label>
+                <input type="date"  formControlName="Birthday" class="form-control" >
+              </div>
+              <div class="form-group ">
+                <label for="">Email</label>
+                <input type="email"  formControlName="Email" class="form-control" id="inputPassword4">
+              </div>
+              <div class="form-group ">
+                <label for="">Gender</label>
+                <select  formControlName="Gender" class="custom-select">
+                  <option value="1">Male</option>
+                  <option value="0">Female</option>
+                </select>
+              </div> 
+  
+            </div>  
+            <div class="form-row-modal">
+              <div class="form-group">
+                <label for="">Address</label>
+                <input type="text" formControlName="address" class="form-control" >
+              </div>
+              <div class="form-group ">
+                <label for="">Phone</label>
+                <input type="text" formControlName="PhoneNumber" class="form-control" id="inputPassword4">
+              </div>
+            </div>
+            <div class="form-row-modal">
+              <div class="form-group">
+                <label for="">Username</label>
+                <input type="text" formControlName="username" class="form-control" >
+              </div>
+              <div class="form-group">
+                <label for="">Password</label>
+                <input type="password" formControlName="password" class="form-control" id="inputPassword4">
+              </div>            </div>
+            <div class="form-row-modal">
+              <div class="form-group">
+                <label for="" style="margin-right: 10px;">Role:</label>
+                <select formControlName="RoleID" class="custom-select" name="" >
+                  <option *ngFor="let role of roles" [value]="role.RoleID">{{role.RoleName}}</option>
+                </select>
+              </div>
+              <div class="form-group" *ngIf="isUserSuperAdmin()" >
+                <label for="" style="margin-right: 10px;">Tenant:</label>
+                <select formControlName="TenantID" class="custom-select" >
+                  <option *ngFor="let tenant of tenants" [value]="tenant.TenantID" >{{tenant.TenantName}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer mt-1">
+              <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+              <button type="submit" class="btn btn-primary" (click)="modal.close(onSubmitCreate())">Save</button>
+            </div>
+          </form>
+	</div>
+</ng-template>
+
+
+
+
+<!-- Modal edit employee-->
+<ng-template #EditFormModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Edit Information employee</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form [formGroup]="editForm">
+            <div class="form-row-modal">
+              <div class="form-group">
+                <label for="">Fist Name</label>
+                <input type="text" formControlName="FirstName" class="form-control" >
+              </div>
+              <div class="form-group ">
+                <label for="">Last Name</label>
+                <input type="text" formControlName="LastName" class="form-control" id="inputPassword4">
+              </div>
+            </div>
+            <div class="form-row-modal">
+              <div class="form-group">
+                <label for="">Birthday</label>
+                <input type="date"  formControlName="Birthday" class="form-control" >
+              </div>
+              <div class="form-group ">
+                <label for="">Email</label>
+                <input type="email"  formControlName="Email" class="form-control" >
+              </div>
+            </div>
+            <div class="form-row-modal">
+              <div class="form-group ">
+                <label for="">Gender</label>
+                <select  formControlName="Gender" class="custom-select">
+                  <option value="1">Male</option>
+                  <option value="0">Female</option>
+                </select>
+              </div> 
+              <div class="form-group">
+                <label for="">Address</label>
+                <input type="text" formControlName="address" class="form-control" >
+              </div>
+              <div class="form-group ">
+                <label for="">Phone</label>
+                <input type="text" formControlName="PhoneNumber" class="form-control" id="inputPassword4">
+              </div>
+            </div>
+            <div class="modal-footer mt-1">
+              <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+              <button type="submit" class="btn btn-primary" (click)="modal.close(onSubmitEdit())">Save</button>
+            </div>
+          </form>
+	</div>
+</ng-template>

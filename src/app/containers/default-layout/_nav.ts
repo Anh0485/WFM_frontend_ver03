@@ -14,10 +14,51 @@ export const navItems: INavData[] = [
     name: 'Employee',
     url: '/employee',
     iconComponent: { name: 'cilPeople' },
-    // badge: {
-    //   color: 'info',
-    //   text: 'NEW'
-    // }
+    
+  },
+  {
+    name: 'Tenant',
+    url: '/tenant',
+    iconComponent: { name: 'cilHome' },
+    
+  },
+  {
+    name: 'Shift',
+    url: '/shift',
+    iconComponent: { name: 'cil-spreadsheet' },
+   
+  },
+  {
+    name: 'Workschedule',
+    url: '/workschedule',
+    iconComponent: { name: 'cilCalendar'},
+    
+  },
+  {
+    name: 'Overtime',
+    url: '/overtime',
+    iconComponent: { name: 'cilCalendar'},
+    
+  },
+  {
+    name: 'Report',
+    url: '/report',
+    iconComponent: { name: 'cil-puzzle' },
+    children: [
+      {
+        name: 'Work hours',
+        url: '/report/workhours'
+      },
+      {
+        name: 'Overtime hours',
+        url: '/report/overtimehours'
+      },
+      {
+        name: 'Number Of Tenant',
+        url: '/report/numberoftenant'
+      },
+     
+    ]
   },
   {
     title: true,

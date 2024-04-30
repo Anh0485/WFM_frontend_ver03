@@ -1,0 +1,51 @@
+.dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+}
+
+.table{
+    margin-top: 20px;
+}
+
+.item-create-search{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    .search{
+        justify-items: left;
+        border-radius: 9px;
+        border: 1px solid #acb3bd;
+        padding: 5px;
+        background-color: #fff;
+        .input-search{
+            border: none;
+            margin-left: 9px;
+        }
+    }
+}
+.item-create-search .search .input-search:focus {
+    outline: none;
+    border: none;
+}
+
+.form-shift-name{
+    .form-group{
+        margin: 9px;
+    }
+}
+
+.form-row-modal{
+    display: flex;
+    .form-group {
+        margin: 9px;
+        .custom-select {
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            color: rgba(44, 56, 74, 0.95);
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #b1b7c1;
+            border-radius: 0.375rem;
+        }
+    }
+}

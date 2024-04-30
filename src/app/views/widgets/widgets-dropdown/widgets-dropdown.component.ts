@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { getStyle } from '@coreui/utils';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { TotalService } from '../../../services/total.service';
+import { ShiftService } from '../../../services/shift.service';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -18,9 +20,19 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
+  currentDate !:Date 
+  private timer: any;
+  date: Date  = new Date();
+  employeeOnTime !: string;
+
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private totalService : TotalService,
+    private shiftService : ShiftService
   ) {}
+
+  totalAgent: any;
+  totalSupervisor: any;
 
   data: any[] = [];
   options: any[] = [];
@@ -117,6 +129,52 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.setData();
+    this.getTotalAgent();
+    this.getTotalSupervisor();
+    this.updateTime();
+      this.timer = setInterval(()=>{
+        this.updateTime();
+      },1000)
+    this.getNumberOfEmployeeOnTime();
+  }
+
+  
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+
+  getNumberOfEmployeeOnTime (){
+   
+    this.shiftService.getNumberOfEmployeeOnTime().subscribe({
+      next:(item) => {
+        this.employeeOnTime = item.attent[0].total_ontime;
+      }
+    })
+
+  }
+
+  updateTime(): void {
+    this.currentDate = new Date();
+  }
+
+  getTotalSupervisor(){
+    this.totalService.getTotalSupervisor().subscribe({
+      next:(item) =>{
+        this.totalSupervisor = item.supervisor[0].total_supervisor;
+      }
+    })
+  }
+
+  getTotalAgent(){
+    this.totalService.getTotalAgent().subscribe({
+      next:(item)=>{
+        this.totalAgent = item.agent[0].total_agents;
+        console.log('agent', this.totalAgent);
+      }})
   }
 
   ngAfterContentInit(): void {
