@@ -27,4 +27,8 @@ export class WScheduleService {
   getTotalWorkHour(startDate: any, endDate: any): Observable<any>{
     return this._http.get(`http://localhost:5000/api/shift/workschedule/totalWorkHour?startDate=${startDate}&endDate=${endDate}`)
   }
+
+  getTotalWorkHourWithAllFilter(EmployeeID: any,startDate: any, endDate: any, ChannelID:any): Observable<any>{
+    return this._http.get(`http://localhost:5000/api/shift/workschedule/getTotalWorkHourWithAllFilter?EmployeeID=${EmployeeID}&startDate=${startDate}&endDate=${endDate}&ChannelID=${ChannelID}`)
+  }
 }

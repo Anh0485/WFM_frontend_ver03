@@ -5,7 +5,7 @@
         <div class="box-option">
             <div class="form-group">
                 <label for="inputState">Employee</label>
-                <select id="inputState" class="form-control">
+                <select id="inputState" class="form-control" formControlName="EmployeeID" >
                     <option selected [value]="'All'">All</option>
                     <option *ngFor="let emp of agents" [value]="emp.EmployeeID">{{emp.EmployeeID}} - {{emp.FullName}} -
                         {{emp.RoleName}} - {{emp.TenantName}}</option>
@@ -61,8 +61,8 @@
         <div class="box-option">
             <div class="form-group">
                 <label for="inputState">Channel</label>
-                <select id="inputState" class="form-control">
-                    <option selected value="'All'">All</option>
+                <select id="inputState" class="form-control" formControlName="ChannelID">
+                    <option selected value="All">All</option>
                     <option *ngFor="let item of channels" [value]="item.ChannelID">{{ item.ChannelName}}</option>
                 </select>
             </div>

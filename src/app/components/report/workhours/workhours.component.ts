@@ -75,8 +75,10 @@ export class WorkhoursComponent implements OnInit {
 	){
 		// this.refreshWorkHour();
 		this.filterForm = this._fb.group({
+			EmployeeID: ['', Validators.required],
 			startDate: ['', Validators.required],
-			endDate: ['', Validators.required]
+			endDate: ['', Validators.required],
+			ChannelID: ['', Validators.required]
 		})
 	}
 
@@ -128,11 +130,18 @@ export class WorkhoursComponent implements OnInit {
 	onSubmit(){
 		const data = this.filterForm.value;
 		console.log('data', data)
-		if(data.startDate && data.endDate){
+		if(data.EmployeeID == 'All' && data.ChannelID == 'All'){
 			this.wschedule.getTotalWorkHour(data.startDate, data.endDate).subscribe({
 				next : (item) => {
-					console.log('item get total work hours', item.workHour);
 					this.workhours =  item.workHour;
+					this.collectionSize = this.workhours.length;
+				}
+			})
+		} else if(data.EmployeeID && data.startDate && data.endDate && data.ChannelID){
+			this.wschedule.getTotalWorkHourWithAllFilter(data.EmployeeID, data.startDate, data.endDate, data.ChannelID).subscribe({
+				next: (item) => {
+					console.log(' item : ', item);
+					this.workhours = item.totalNumberWorkHours;
 					this.collectionSize = this.workhours.length;
 				}
 			})
