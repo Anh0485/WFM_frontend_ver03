@@ -22,20 +22,20 @@ const routes: Routes = [
           title: 'Work hours',
         },
       },
-      {
-        path: 'overtimehours',
-        component: OvertimehoursComponent,
-        data: {
-          title: 'Overtime hours',
-        },
-      },
-      {
-        path: 'numberoftenant',
-        component: NumberoftenantComponent,
-        data: {
-          title: 'Number of tenant',
-        },
-      }
+      // {
+      //   path: 'overtimehours',
+      //   component: OvertimehoursComponent,
+      //   data: {
+      //     title: 'Overtime hours',
+      //   },
+      // },
+      // {
+      //   path: 'numberoftenant',
+      //   component: NumberoftenantComponent,
+      //   data: {
+      //     title: 'Number of tenant',
+      //   },
+      // }
     ],
   },
 ];

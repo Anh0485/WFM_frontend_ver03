@@ -39,6 +39,7 @@ import { WorkhoursComponent } from './workhours/workhours.component';
 import { OvertimehoursComponent } from './overtimehours/overtimehours.component';
 import { NumberoftenantComponent } from './numberoftenant/numberoftenant.component';
 import { NgbDatepickerModule, NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdSortableHeader } from 'src/app/directives/sortable.directive';
 
 @NgModule({
   imports: [
@@ -74,12 +75,13 @@ import { NgbDatepickerModule, NgbPaginationModule, NgbTypeaheadModule } from '@n
     JsonPipe,
     DecimalPipe,
     NgbTypeaheadModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    NgbdSortableHeader
   ],
   declarations: [
    WorkhoursComponent,
-   OvertimehoursComponent,
-   NumberoftenantComponent
+  //  OvertimehoursComponent,
+  //  NumberoftenantComponent
   ],
 })
 export class ReportModule {}

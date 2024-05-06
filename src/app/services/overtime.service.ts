@@ -35,6 +35,14 @@ export class OvertimeService {
   deleteOT(id:number):Observable<any>{
     return this._http.delete(`http://localhost:5000/api/overtime/${id}`)
   }
+
+  getTotalOvertimeHour(startDate:any, endDate:any): Observable<any>{
+    return this._http.get(`http://localhost:5000/api/overtime/getTotalOvertimeHour?startDate=${startDate}&endDate=${endDate}`)
+  }
+  
+  getDetailOvertimeHourOnDate(startDate:any, endDate:any, EmployeeID:any): Observable<any>{
+    return this._http.get(`http://localhost:5000/api/overtime/getDetailOvertimeHourOnDate?startDate=${startDate}&endDate=${endDate}&EmployeeID=${EmployeeID}`)
+  }
   
 
   

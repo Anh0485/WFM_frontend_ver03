@@ -21,6 +21,9 @@ export class TotalService {
       return this._http.get('http://localhost:5000/api/total/totalSupervisor')
     }
 
+    getTotalWorkHourandOvertimeHour(startDate:any, endDate:any):Observable<any>{
+      return this._http.get(`http://localhost:5000/api/total/getTotalWorkHourandOvertimeHour?startDate=${startDate}Ư&endDate=${endDate}`)
+    }
     
   
   }
