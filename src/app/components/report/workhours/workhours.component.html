@@ -1,7 +1,8 @@
 <h2>Work hours Report</h2>
 
 <form [formGroup]="filterForm">
-    <div class="box">
+    
+    <div class="box" [ngClass]="{'height-200': filterForm.hasError('dateRangeError')}">
         <div class="box-option">
             <div class="form-group">
                 <label for="inputState">Employee</label>
@@ -14,6 +15,7 @@
         </div>
         <div class="box-option">
             <label style="margin-left: 10px;">Date</label>
+            <div *ngIf="filterForm.hasError('dateRangeError')">The start date cannot be greater than the end date</div>
             <div class="row row-cols-sm-auto" style="display: inline;">
                 <div class="col-12" style="margin-bottom: 10px;">
                      <div class="input-group">
@@ -47,6 +49,9 @@
 
 
 <div class="report-table">
+    <div class="text" *ngIf="!submitted">
+        <p class="font-weight-bold">Data show from {{this.startDateFormatted}} to {{this.endDateFormatted}}</p>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr style="text-align: center;">

@@ -25,7 +25,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OvertimeService } from 'src/app/services/overtime.service';
 import { TotalService } from 'src/app/services/total.service';
 import {Country} from '../../../model/country';
-import {NgbdSortableHeader, SortEvent} from '../../../directives/sortable.directive'
+import {NgbdSortableHeader, SortEvent} from '../../../directives/sortable.directive';
+import {startOfMonth, endOfMonth,subMonths, format} from 'date-fns'
+// import { dateRangeValidator } from '../../../validation/validator';
 
 //table
 const compare = (v1: string | number, v2: string | number) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
@@ -96,8 +98,12 @@ export class WorkhoursComponent implements OnInit {
   agents!: any[];
   channels!: any[];
   combinedData!: any[];
-  startDate = '2024-01-01';
-  endDate = '2024-05-01';
+  currentDate = new Date();
+  startDate = startOfMonth(subMonths(new Date(), 1));
+  startDateFormatted = format(this.startDate, 'yyyy-MM-dd')
+  endDate = endOfMonth(subMonths(new Date(), 1));
+  endDateFormatted = format(this.endDate, 'yyyy-MM-dd');  
+  submitted = false;
   countries = COUNTRIES; //table
 
   // pagination
@@ -126,14 +132,29 @@ export class WorkhoursComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       ChannelID: ['', Validators.required],
-    });
+    },{validator: this.dateRangeValidator});
+    console.log('startDate and endDate',this.startDateFormatted, this.endDateFormatted)
+  }
+
+  dateRangeValidator(formGroup: FormGroup) {
+    const startDate = formGroup.get('startDate')?.value;
+    const endDate = formGroup.get('endDate')?.value;
+
+    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+      return { dateRangeError: true };
+    }
+
+    return null;
   }
 
   ngOnInit(): void {
     this.getTotalWorkHour();
     this.getAllAgent();
     this.getAllChannel();
+    
   }
+
+ 
   // getTotalWorkHour() {
   //   this.totalService
   //     .getTotalWorkHourandOvertimeHour(this.startDate, this.endDate)
@@ -154,10 +175,9 @@ export class WorkhoursComponent implements OnInit {
 
   getTotalWorkHour() {
     this.totalService
-      .getTotalWorkHourandOvertimeHour(this.startDate, this.endDate)
+      .getTotalWorkHourandOvertimeHour(this.startDateFormatted, this.endDateFormatted)
       .subscribe({
         next: (data) => {
-          console.log('item', data);
 
           let hour: CombinedData[] = [];
 
@@ -175,9 +195,7 @@ export class WorkhoursComponent implements OnInit {
               });
             }
           });
-
           this.workhours = hour;
-          console.log('workhours', this.workhours)
           this.collectionSize = this.workhours.length;
         },
       });
@@ -219,14 +237,30 @@ export class WorkhoursComponent implements OnInit {
 
   //onSubmit
   onSubmit() {
+    this.submitted = true;
     const data = this.filterForm.value;
     console.log('data', data);
     if (data.EmployeeID == 'All' && data.ChannelID == 'All') {
       this.totalService
         .getTotalWorkHourandOvertimeHour(data.startDate, data.endDate)
         .subscribe({
-          next: (item) => {
-            this.workhours = item.workHour;
+          next: (item) => {            
+            let hour : CombinedData [] = [];
+
+            item.workHour.forEach((items:any)=>{
+              const otItem = item.overtimeHour.find((ot:any)=> ot.EmployeeID === items.EmployeeID);
+              if (otItem){
+                hour.push({
+                  EmployeeID: items.EmployeeID,
+                  fullname: items.fullname,
+                  ChannelName: items.ChannelName,
+                  TOTALWORKINGHOURS: items.TOTALWORKINGHOURS,
+                  totalOvertimeHour: otItem.totalOvertimeHour,
+                })
+              }
+            })
+            this.workhours = hour;
+            console.log('hour', this.workhours)
             this.collectionSize = this.workhours.length;
           },
         });
@@ -245,8 +279,24 @@ export class WorkhoursComponent implements OnInit {
         )
         .subscribe({
           next: (item) => {
-            console.log(' item : ', item);
-            this.workhours = item.totalNumberWorkHours;
+            console.log('all workHour and overtimeHour: ', item);
+            // this.workhours = item.totalNumberWorkHours;
+            let hour : CombinedData [] = [];
+
+            item.workHour.forEach((items:any)=>{
+              const otItem = item.overtimeHour.find((ot:any)=> ot.EmployeeID === items.EmployeeID);
+              if (otItem){
+                hour.push({
+                  EmployeeID: items.EmployeeID,
+                  fullname: items.fullname,
+                  ChannelName: items.ChannelName,
+                  TOTALWORKINGHOURS: items.TOTALWORKINGHOURS,
+                  totalOvertimeHour: otItem.totalOvertimeHour,
+                })
+              }
+            })
+            this.workhours = hour;
+            console.log('hour', this.workhours)
             this.collectionSize = this.workhours.length;
           },
         });
@@ -256,12 +306,25 @@ export class WorkhoursComponent implements OnInit {
   //modal
 
   openDetailOvertimeHourModal(content: TemplateRef<any>, hour:any) {
-    console.log('hour.employeeID', hour.EmployeeID);
-    this.overtimeService.getDetailOvertimeHourOnDate(this.startDate, this.endDate, hour.EmployeeID).subscribe({
-      next: (data) => {
-        this.detailOvertimeHour = data.detailOvertimeHour;
-      }
-    })
+    const data = this.filterForm.value;
+    if(this.startDateFormatted && this.endDateFormatted){
+      this.overtimeService.getDetailOvertimeHourOnDate(this.startDateFormatted, this.endDateFormatted, hour.EmployeeID).subscribe({
+        next: (data) => {
+          this.detailOvertimeHour = data.detailOvertimeHour;
+        }
+      })
+    } else if (data.EmployeeID &&
+      data.startDate &&
+      data.endDate &&
+      data.ChannelID){
+        this.overtimeService.getDetailOvertimeHourOnDate(data.startDate, data.endDate, hour.EmployeeID).subscribe({
+          next: (data) => {
+            this.detailOvertimeHour = data.detailOvertimeHour;
+          }
+        })
+     
+    }
+    
     this.modalService.open(content, { modalDialogClass: 'dark-modal' });
   }
 

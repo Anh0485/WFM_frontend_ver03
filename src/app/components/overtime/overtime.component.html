@@ -84,7 +84,7 @@
               <th scope="col">Hour</th>
               <th scope="col">Date</th>
               <th scope="col">Status</th>
-              <th scope="col" *ngIf="checkRole()">Action</th>
+              <!-- <th scope="col" *ngIf="checkRole()">Action</th> -->
             </tr>
           </thead>
           <tbody>
@@ -100,9 +100,9 @@
                   {{item.Status}}
                 </span>
               </td>
-              <td *ngIf="checkRole()">
+              <!-- <td *ngIf="checkRole()">
                 <button class="btn btn-danger" style="color: white;" (click)="deleteOT(item.OverTimeID)">Delete</button>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
@@ -122,7 +122,7 @@
               <th scope="col">Hour</th>
               <th scope="col">Date</th>
               <th scope="col">Status</th>
-              <th scope="col" *ngIf="checkRole()">Action</th>
+              <!-- <th scope="col" *ngIf="checkRole()">Action</th> -->
             </tr>
           </thead>
           <tbody>
@@ -138,9 +138,9 @@
                   {{item.Status}}
                 </span>
               </td>
-              <td *ngIf="checkRole()">
+              <!-- <td *ngIf="checkRole()">
                 <button class="btn btn-danger" style="color: white;" (click)="deleteOT(item.OverTimeID)">Delete</button>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
