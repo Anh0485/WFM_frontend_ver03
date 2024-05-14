@@ -74,11 +74,29 @@
   <div class="modal-body">
     <form [formGroup]="createForm">
       <div class="form">
-        <div class="form-group">
-          <label for="">Employee</label>
-          <select  class="form-select" formControlName="EmployeeID">
+        <label for="">Employee</label>
+        <div class="form-row-modal">
+          <table>
+            <tr>
+              <th>EmployeeID</th>
+              <th>Name</th>
+              <th>Check</th>
+            </tr>
+            <tr *ngFor=" let agent of agents">
+              <td>{{agent.EmployeeID}}</td>
+              <td>{{agent.FullName}}</td>
+              <th>
+                <input 
+                [checked]="isSelected(agent)"
+                (change)="toggleSelection($event, agent)"
+                type="checkbox">
+              </th>
+            </tr>
+          </table>
+          <!-- <select  class="form-select" formControlName="EmployeeID">
             <option *ngFor="let emp of agents" [value]="emp.EmployeeID">{{emp.EmployeeID}} - {{emp.FullName}}</option>
-          </select>
+          </select> -->
+         
          
         </div>
       </div>

@@ -1,8 +1,11 @@
 .table{
     margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
 }
 
-.item-create-search{
+.item-create-search{ 
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;

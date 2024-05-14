@@ -47,6 +47,7 @@ export class ShiftComponent implements OnInit {
       this.shiftService.createdShift(this.createForm.value).subscribe({
         next:(val:any)=>{
           alert('create shift');
+          this.getAllShift();
         }
       })
     }

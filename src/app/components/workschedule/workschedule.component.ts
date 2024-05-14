@@ -8,6 +8,7 @@ import { ChannelService } from '../../services/channel.service';
 import { ShiftService } from 'src/app/services/shift.service';
 import { forkJoin } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript/lib/tsserverlibrary';
 @Component({
   selector: 'app-workschedule',
   templateUrl: './workschedule.component.html',
@@ -99,7 +100,7 @@ export class WorkscheduleComponent implements OnInit {
     this.shiftService.getAllShift().subscribe({
       next:(res) =>{
         this.shifts = res.allShift;
-        console.log('shifts', this.shifts)
+        // console.log('shifts', this.shifts)
       }
     })
   }
@@ -167,29 +168,67 @@ export class WorkscheduleComponent implements OnInit {
 
   onSubmitCreate(){
     console.log('value', this.createForm.value);
-    const shiftTypeIDArray = this.selectedRows.map((item)=> item.ShiftTypeID);
-    for (let i = 0; i < shiftTypeIDArray.length; i++) {
-      const shiftTypeIDValue = shiftTypeIDArray[i];
-      const formValue = {
-        EmployeeID: this.createForm.value.EmployeeID,
-        ShiftTypeID: shiftTypeIDValue,
-        WorkDate: this.createForm.value.WorkDate,
-        ChannelID: this.createForm.value.ChannelID,
-        isScheduled: this.createForm.value.isScheduled,
+    console.log('selectedRow', this.selectedRows);
+    const employeeList = this.selectedRows.filter(item=> item.EmployeeID).map(item=>{
+      return {
+        EmployeeID: item.EmployeeID,
+        FullName: item.FullName
+      }
+    })
+    const shiftTypeList = this.selectedRows.filter(item => item.ShiftTypeID).map(item => {
+      return { 
+          ShiftTypeID: item.ShiftTypeID,
+          ShiftTypeName: item.ShiftTypeName // Chỉ để hiển thị, không cần thiết
       };
-      const observable = this.wscheduleServive.createdWShedule(formValue);
-      this.observables.push(observable);
-    }
+  });
+    this.observables = [];
+
+    employeeList.forEach(employee => {
+      shiftTypeList.forEach(shiftType => {
+        const formValue = {
+              EmployeeID: employee.EmployeeID,
+              ShiftTypeID: shiftType.ShiftTypeID,
+              WorkDate: this.createForm.value.WorkDate,
+              ChannelID: this.createForm.value.ChannelID,
+              isScheduled: this.createForm.value.isScheduled,
+            };
+           const observable = this.wscheduleServive.createdWShedule(formValue);
+          this.observables.push(observable);
+      })
+    })
     forkJoin(this.observables).subscribe(
       () => {
-        alert('created shift successfully');
-        // this.getAllSchedule();
-        window.location.reload();
+          alert('Created shifts successfully');
+          this.getAllSchedule();
+          // window.location.reload();
       },
       error => {
-        console.error(error);
+          console.error(error);
       }
-    )
+  )
+    // for (let i = 0; i < shiftTypeIDArray.length; i++) {
+    //   const shiftTypeIDValue = shiftTypeIDArray[i];
+    //   // console.log('shiftTypeIDValue', shiftTypeIDValue);
+    //   const formValue = {
+    //     EmployeeID: this.createForm.value.EmployeeID,
+    //     ShiftTypeID: shiftTypeIDValue,
+    //     WorkDate: this.createForm.value.WorkDate,
+    //     ChannelID: this.createForm.value.ChannelID,
+    //     isScheduled: this.createForm.value.isScheduled,
+    //   };
+    //   // const observable = this.wscheduleServive.createdWShedule(formValue);
+    //   // this.observables.push(observable);
+    // }
+    // forkJoin(this.observables).subscribe(
+    //   () => {
+    //     alert('created shift successfully');
+    //     // this.getAllSchedule();
+    //     window.location.reload();
+    //   },
+    //   error => {
+    //     console.error(error);
+    //   }
+    // )
 
   }
 
