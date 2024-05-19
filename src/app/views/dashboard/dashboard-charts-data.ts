@@ -42,6 +42,7 @@ export class DashboardChartsData {
     // generate random values for mainChart
     for (let i = 0; i <= this.mainChart['elements']; i++) {
       this.mainChart['Data1'].push(this.random(50, 240));
+      console.log('data1', this.mainChart['Data1']);
       this.mainChart['Data2'].push(this.random(20, 160));
       this.mainChart['Data3'].push(65);
     }
@@ -112,11 +113,11 @@ export class DashboardChartsData {
         label: 'Previous',
         ...colors[1]
       },
-      {
-        data: this.mainChart['Data3'],
-        label: 'BEP',
-        ...colors[2]
-      }
+      // {
+      //   data: this.mainChart['Data3'],
+      //   label: 'BEP',
+      //   ...colors[2]
+      // }
     ];
 
     const plugins = {

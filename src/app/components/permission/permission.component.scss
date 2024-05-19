@@ -1,0 +1,36 @@
+.report-table{
+    background-color: white;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    .table .table-striped{
+        margin: 10px;
+
+    }
+}
+
+        .modal-body{
+            .create-permission{
+
+            }
+            .form-group{
+                label{
+                    font-weight: bold;
+                }
+            }
+            .table-striped{
+                margin: 10px;
+                text-align: center;
+                
+                .btn-permission-delte{
+                    border: none;
+                    background: transparent;
+                    .bi{
+                        color: red;
+                    }
+                }
+            }
+        }
+
+

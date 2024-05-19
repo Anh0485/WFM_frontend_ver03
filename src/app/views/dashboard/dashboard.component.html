@@ -1,6 +1,6 @@
 <app-widgets-dropdown></app-widgets-dropdown>
 <c-card class="mb-4">
-  <c-card-body>
+  <!-- <c-card-body>
     <c-row>
       <c-col sm="5">
         <h4 class="card-title mb-0" id="traffic">Traffic</h4>
@@ -66,6 +66,75 @@
     >
       Main chart
     </c-chart>
+  </c-card-body> -->
+  <c-card-body>
+    <c-row>
+      <c-col sm="6">
+        <c-row>
+          <c-col sm="6">
+            <h4 class="card-title mb-0" id="callAndAgent">Call and agent</h4>
+            <div class="small text-medium-emphasis">3/05/2024 - 10/05/2024</div>  
+          </c-col>
+          <c-col sm="6">
+            <form [formGroup]="trafficRadioGroup">
+              <c-button-group class="float-end me-3" role="group">
+                <input
+                  class="btn-check"
+                  formControlName="trafficRadio"
+                  type="radio"
+                  value="Day"
+                />
+                <label
+                  (click)="setTrafficPeriod('Day')"
+                  cButton
+                  cFormCheckLabel
+                  color="secondary"
+                  variant="outline"
+                >Day</label>
+    
+                <input
+                  class="btn-check"
+                  formControlName="trafficRadio"
+                  type="radio"
+                  value="Month"
+                />
+                <label
+                  (click)="setTrafficPeriod('Month')"
+                  cButton
+                  cFormCheckLabel
+                  color="secondary"
+                  variant="outline"
+                >Month</label>
+    
+                <input
+                  class="btn-check"
+                  formControlName="trafficRadio"
+                  type="radio"
+                  value="Year"
+                />
+                <label
+                  (click)="setTrafficPeriod('Year')"
+                  cButton
+                  cFormCheckLabel
+                  color="secondary"
+                  variant="outline"
+                >Year</label>
+              </c-button-group>
+            </form>
+          </c-col>
+        </c-row>
+        <c-chart
+        [data]="mainChart.data"
+        [height]="300"
+        [ngStyle]="{ 'marginTop.px': 40 }"
+        [options]="mainChart.options"
+        [type]="mainChart.type"
+      >
+        Main chart
+      </c-chart>
+      </c-col>
+    </c-row>
+  
   </c-card-body>
   <c-card-footer>
     <c-row class="text-center" [md]="5" [xs]="1">

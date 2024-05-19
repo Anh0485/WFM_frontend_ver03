@@ -108,7 +108,7 @@ export class DashboardComponent implements OnInit {
   public mainChart: IChartProps = {};
   public chart: Array<IChartProps> = [];
   public trafficRadioGroup = new UntypedFormGroup({
-    trafficRadio: new UntypedFormControl('Month')
+    trafficRadio: new UntypedFormControl('Day')
   });
 
   ngOnInit(): void {

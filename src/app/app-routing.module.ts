@@ -66,6 +66,11 @@ const routes: Routes = [
         import('./components/report/report.module').then((m)=> m.ReportModule)
       },
       {
+        path:'permission',
+        loadChildren:() => 
+        import('./components/permission/permission.module').then((m)=> m.PermissionModule)
+      },
+      {
         path: 'theme',
         loadChildren: () =>
           import('./views/theme/theme.module').then((m) => m.ThemeModule)
