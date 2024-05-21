@@ -166,8 +166,8 @@
       <div class="form">
         <div class="form-group">
           <label for="">Employee</label>
-          <select  class="form-select" formControlName="EmployeeID">
-            <option *ngFor="let emp of employees" [value]="emp.EmployeeID">{{emp.EmployeeID}} - {{emp.FullName}}</option>
+          <select  class="form-select" formControlName="EmployeeID" >
+            <option selected *ngFor="let emp of editEmployee" [value]="emp.EmployeeID">{{emp.EmployeeID}} - {{emp.FullName}}</option>
           </select>
          
         </div>
@@ -222,7 +222,7 @@
       </div>
       <div class="modal-footer mt-1">
         <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
-        <button type="submit" class="btn btn-primary" (click)="modal.close(onSubmitCreate())">Save</button>
+        <button type="submit" class="btn btn-primary" (click)="modal.close(onSubmitEdit())">Save</button>
       </div>
     </form>
   </div>

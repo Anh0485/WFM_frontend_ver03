@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: PermissionComponent,
     data: {
-      title: `Permssion`
+      title: `Permission`
     }
   }
 ];

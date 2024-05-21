@@ -17,7 +17,7 @@ export class WScheduleService {
   }
 
   updatedWSchedule(id:number, data:any):Observable<any>{
-    return this._http.put(`http://localhost:5000/api/shift/${id}`,data)
+    return this._http.put(`http://localhost:5000/api/shift/wschedule/${id}`,data)
   }
 
   deleteWSchedule(id:number):Observable<any>{

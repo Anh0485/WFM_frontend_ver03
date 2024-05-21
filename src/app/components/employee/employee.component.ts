@@ -8,8 +8,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { navItems } from '../../containers/default-layout/_nav';
 import { UserService } from 'src/app/services/user.service';
-
-
+import {emailValidator} from '../../validation/validator'
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
@@ -17,6 +17,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class EmployeeComponent implements OnInit {
   employees!: any[];
+  total$!: Observable<number>;
   roles!: any[];
   tenants!: any[];
   editEmployees: any = {};
@@ -37,6 +38,7 @@ export class EmployeeComponent implements OnInit {
   message: string = '';
   createForm!: FormGroup;
   editForm!: FormGroup;
+  searchText:string = '';
 
   private modalService = inject(NgbModal);
 
@@ -51,7 +53,7 @@ export class EmployeeComponent implements OnInit {
       FirstName: ['', Validators.required],
       LastName: ['', Validators.required],
       Birthday: ['', Validators.required],
-      Email: ['', Validators.required, Validators.email],
+      Email: ['', Validators.required],
       Gender: ['', Validators.required],
       address: ['', Validators.required],
       PhoneNumber: ['', Validators.required],
@@ -77,6 +79,25 @@ export class EmployeeComponent implements OnInit {
     this.getAllTenant();
     this.getTenantID();
     this.getUser();
+    this.search();
+  }
+
+  searchKey(data:string){
+    this.searchText = data;
+    console.log('search key', this.searchText);
+    this.search();
+  }
+
+  search(){
+    this.employeeService.getEmployeeList().subscribe({
+      next : (item) =>{
+        this.employees = item;
+        console.log('search employee', this.employees)
+            this.filteredEmployees = this.searchText === "" ? this.employees : this.employees.filter((element)=>{
+              console.log('element', element)
+              return element.FirstName.toLowerCase().includes(this.searchText.toLowerCase());            })
+      }
+    })
   }
 
   openModalDialogCustomClass(content: TemplateRef<any>) {
@@ -85,7 +106,6 @@ export class EmployeeComponent implements OnInit {
 
   openEdit(content: TemplateRef<any>, employee: any) {
     this.editEmployees = { ...employee };
-    console.log('editEmployee', this.editEmployees)
     this.editForm.setValue({
       FirstName: this.editEmployees.FirstName,
       LastName: this.editEmployees.LastName,
@@ -104,11 +124,10 @@ export class EmployeeComponent implements OnInit {
       this.employeeService.addEmployee(this.createForm.value).subscribe({
         next: (item) => {
           this.message = item.message;
-          console.log('item',item);
           if(item.errCode === -1){
             this.showWarning(item.message);
           } else if (item.errCode === 0){
-            this.showSuccess();
+            this.showSuccess(item.message);
           }
           this.getEmployees();
         },
@@ -121,8 +140,10 @@ export class EmployeeComponent implements OnInit {
       console.log(this.editForm.value);
       this.employeeService.updateEmployee(this.editEmployees.EmployeeID,this.editForm.value).subscribe({
         next: (val: any) => {
-          alert('update employee successfully');
-          window.location.reload();
+          this.showSuccess(val.message);
+          setTimeout(()=>{
+            window.location.reload()
+          },2000 );
         },
       });
     }
@@ -214,9 +235,9 @@ export class EmployeeComponent implements OnInit {
   }
 
 
-  showSuccess(){
-    this.toastr.success('create employee successfully', 'Success', {
-    timeOut: 3000,
+  showSuccess(mess:string){
+    this.toastr.success(`${mess}`, 'Success', {
+    timeOut: 1000,
   });
   }
 
@@ -237,7 +258,6 @@ export class EmployeeComponent implements OnInit {
   getUser(){
     this.userService.getUserProfile().subscribe({
       next:(item) => {
-        console.log('user', item.user[0]);
          this.roleName = item.user[0].RoleName;
       }
     })

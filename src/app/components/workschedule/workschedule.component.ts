@@ -6,9 +6,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
 import { ShiftService } from 'src/app/services/shift.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, timeout } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript/lib/tsserverlibrary';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-workschedule',
   templateUrl: './workschedule.component.html',
@@ -25,6 +26,7 @@ export class WorkscheduleComponent implements OnInit {
   isScheduled: number = 0;
   observables: any[] = [];
   editWSchedule: any = {};
+  editEmployee: any[] = [];
   createForm!: FormGroup;
   editForm!: FormGroup;
   private modalService = inject(NgbModal)
@@ -34,7 +36,8 @@ export class WorkscheduleComponent implements OnInit {
     private channelService : ChannelService,
     private shiftService : ShiftService,
     private userService : UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService,
   ){
     const today = new Date();
 
@@ -51,7 +54,7 @@ export class WorkscheduleComponent implements OnInit {
     this.editForm = this.fb.group({
       EmployeeID: ['', Validators.required],
       ShiftTypeID : ['', Validators.required],
-      WorkDate: ['', Validators.required],
+      WorkDate: ['20-05-2024', Validators.required],
       isScheduled: ['', Validators.required],
       ChannelID:['', Validators.required],
     })
@@ -100,7 +103,6 @@ export class WorkscheduleComponent implements OnInit {
     this.shiftService.getAllShift().subscribe({
       next:(res) =>{
         this.shifts = res.allShift;
-        // console.log('shifts', this.shifts)
       }
     })
   }
@@ -132,22 +134,31 @@ export class WorkscheduleComponent implements OnInit {
 		this.modalService.open(content, { modalDialogClass: 'light-modal' });
 	}
 
-  getEmployee(){
-    
+  
+
+
+   convertDateFormat(dateStr:any) {
+    if (typeof dateStr !== 'string' || !/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
+      throw new Error('Invalid date format. Please use "mm-dd-yyyy".');
+    }
+    const parts = dateStr.split('-');
+
+    const newDateStr = `${parts[2]}-${parts[0]}-${parts[1]}`;
+
+    return newDateStr;
   }
 
-
-  
 
   openEdit(content: TemplateRef<any>, schedule:any){
     this.modalService.open(content, {modalDialogClass:'light-modal'});
     this.editWSchedule = {...schedule}
+    this.editEmployee = [{...schedule}]
     this.selectedRows = [this.editWSchedule.ShiftTypeID];
-    
+    const formatDate = this.convertDateFormat(this.editWSchedule.workdate)
     this.editForm.setValue({
       EmployeeID: this.editWSchedule.EmployeeID,
       ShiftTypeID : this.editWSchedule.ShiftTypeID,
-      WorkDate: this.editWSchedule.workdate,
+      WorkDate: formatDate,
       isScheduled: this.editWSchedule.isScheduled,
       ChannelID: this.editWSchedule.ChannelID,
     })
@@ -163,7 +174,26 @@ export class WorkscheduleComponent implements OnInit {
   }
 
   onSubmitEdit(){
-
+    console.log('edit', this.editForm.value);
+    console.log('selected row', this.selectedRows);
+    console.log('editWSchedule', this.editWSchedule);
+    const shiftTypeID = this.selectedRows.filter(item=> item.ShiftTypeID).map(item =>{
+      return {
+        ShiftTypeID: item.ShiftTypeID
+      }
+    })
+    console.log('shiftTypeID', shiftTypeID);
+    const data = {
+      ShiftTypeID: shiftTypeID[0].ShiftTypeID || this.editForm.value.ShiftTypeID,
+      WorkDate: this.editForm.value.WorkDate,
+      isScheduled: this.editForm.value.isScheduled
+    }
+    this.wscheduleServive.updatedWSchedule(this.editWSchedule.ScheduleID,data).subscribe({
+      next : (item) => {
+        this.showSuccess(item.message);
+        this.getAllSchedule();
+      }
+    })
   }
 
   onSubmitCreate(){
@@ -178,7 +208,7 @@ export class WorkscheduleComponent implements OnInit {
     const shiftTypeList = this.selectedRows.filter(item => item.ShiftTypeID).map(item => {
       return { 
           ShiftTypeID: item.ShiftTypeID,
-          ShiftTypeName: item.ShiftTypeName // Chỉ để hiển thị, không cần thiết
+          ShiftTypeName: item.ShiftTypeName 
       };
   });
     this.observables = [];
@@ -206,30 +236,14 @@ export class WorkscheduleComponent implements OnInit {
           console.error(error);
       }
   )
-    // for (let i = 0; i < shiftTypeIDArray.length; i++) {
-    //   const shiftTypeIDValue = shiftTypeIDArray[i];
-    //   // console.log('shiftTypeIDValue', shiftTypeIDValue);
-    //   const formValue = {
-    //     EmployeeID: this.createForm.value.EmployeeID,
-    //     ShiftTypeID: shiftTypeIDValue,
-    //     WorkDate: this.createForm.value.WorkDate,
-    //     ChannelID: this.createForm.value.ChannelID,
-    //     isScheduled: this.createForm.value.isScheduled,
-    //   };
-    //   // const observable = this.wscheduleServive.createdWShedule(formValue);
-    //   // this.observables.push(observable);
-    // }
-    // forkJoin(this.observables).subscribe(
-    //   () => {
-    //     alert('created shift successfully');
-    //     // this.getAllSchedule();
-    //     window.location.reload();
-    //   },
-    //   error => {
-    //     console.error(error);
-    //   }
-    // )
+   
 
+  }
+
+  showSuccess(mess:string){
+    this.toastr.success(`${mess}`, 'Success',{
+      timeOut: 3000,
+    });
   }
 
 }

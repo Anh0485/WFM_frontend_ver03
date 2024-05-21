@@ -18,6 +18,14 @@ export class ModuleService {
     return this._http.get('http://localhost:5000/api/module/ModuleName');
   }
 
+  getAccountProfile(): Observable<any>{
+    return this._http.get('http://localhost:5000/api/module/accountProfile');
+  }
+
+  getModuleAndPermission(id: any): Observable<any>{
+    return this._http.get(`http://localhost:5000/api/module/getModuleAndPermission?AccountID=${id}`);
+  }
+
 
   
 }

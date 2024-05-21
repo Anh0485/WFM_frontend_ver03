@@ -13,3 +13,13 @@ export const dateRangeValidator: ValidatorFn = (control: AbstractControl): Valid
 
   return null;
 };
+
+export const emailValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  if (!control.value) {
+    return null; 
+  }
+
+  const regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+  const valid = regex.test(control.value);
+  return valid ? null : { emailInvalid: true };
+};

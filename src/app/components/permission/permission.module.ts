@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   AvatarModule,
@@ -38,7 +38,8 @@ import { PermissionRoutingModule } from './permission-routing.module';
     AvatarModule,
     TableModule,
     WidgetsModule,
-    NgbNavModule
+    NgbNavModule,
+    FormsModule,
   ],
   providers:[
     DatePipe

@@ -5,7 +5,7 @@
       <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEmployee">
         Create employee
       </button> -->
-      <button class="btn btn-outline-primary mb-2 me-2" (click)="openModalDialogCustomClass(createFormModal)">
+      <button class="btn btn-primary mb-2 me-2" (click)="openModalDialogCustomClass(createFormModal)">
         Create Employee
       </button>
     </div>
@@ -13,12 +13,12 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
           <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
         </svg>
-        <input type="text"  class="input-search" placeholder="Seaching">
+        <input type="text" [ngModel]="searchText" (ngModelChange)="searchKey($event)"  class="input-search" placeholder="Seaching" ngModel>
     </div>
   </div>
 
   <div class="table">
-    <table cTable hover>
+    <table cTable hover >
       <thead>
         <tr>
           <th scope="col">EmployeeID</th>
@@ -33,7 +33,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of employees">
+        <tr *ngFor="let item of filteredEmployees">
           <th scope="row">{{item.EmployeeID}}</th>
           <td>{{item.FirstName}}</td>
           <td>{{item.LastName}}</td>
@@ -55,6 +55,16 @@
         </tr>
       </tbody>
     </table>
+    <!-- <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+      </ngb-pagination>
+  
+      <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+      </select>
+    </div> -->
   </div>
 
 
@@ -80,7 +90,7 @@
               </div>
               <div class="form-group ">
                 <label for="">Last Name</label>
-                <input type="text"  formControlName="LastName" class="form-control" id="inputPassword4">
+                <input type="text"  formControlName="LastName" class="form-control">
               </div>
             </div>
             <div class="form-row-modal">
@@ -90,6 +100,11 @@
               </div>
               <div class="form-group ">
                 <label for="">Email</label>
+                <div *ngIf="createForm.get('Email')?.touched">
+                  <small *ngIf="createForm.get('Email')?.errors?.['required']" style="color: red;">
+                    Email is required.
+                  </small>
+                </div>                
                 <input type="email"  formControlName="Email" class="form-control" id="inputPassword4">
               </div>
               <div class="form-group ">

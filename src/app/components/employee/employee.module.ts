@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   AvatarModule,
@@ -23,6 +23,7 @@ import { EmployeeRoutingModule } from './employee-routing.module';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
     EmployeeRoutingModule,
@@ -42,6 +43,8 @@ import { BrowserModule } from '@angular/platform-browser';
     AvatarModule,
     TableModule,
     WidgetsModule,
+    NgbPaginationModule,
+    FormsModule,
     ToastrModule.forRoot(),
   ],
   declarations: [EmployeeComponent]
