@@ -10,6 +10,7 @@ import { navItems } from '../../containers/default-layout/_nav';
 import { UserService } from 'src/app/services/user.service';
 import {emailValidator} from '../../validation/validator'
 import { Observable } from 'rxjs';
+import {Employee} from '../../model/employee'
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
@@ -41,6 +42,13 @@ export class EmployeeComponent implements OnInit {
   searchText:string = '';
 
   private modalService = inject(NgbModal);
+
+  //pagination
+
+  page = 1;
+  pageSize = 4;
+  collectionSize !:number;
+  EMPLOYEES !: Employee [];
 
   constructor(
     private employeeService: EmployeeService,
@@ -74,30 +82,38 @@ export class EmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEmployees();
+    this.refreshEmployeeAndSearch();
     this.getAllRole();
     this.getAllTenant();
     this.getTenantID();
     this.getUser();
-    this.search();
   }
 
   searchKey(data:string){
     this.searchText = data;
-    console.log('search key', this.searchText);
-    this.search();
+    this.refreshEmployeeAndSearch();
   }
 
-  search(){
+
+  refreshEmployeeAndSearch(){
     this.employeeService.getEmployeeList().subscribe({
-      next : (item) =>{
+      next: (item) => {
         this.employees = item;
-        console.log('search employee', this.employees)
-            this.filteredEmployees = this.searchText === "" ? this.employees : this.employees.filter((element)=>{
-              console.log('element', element)
-              return element.FirstName.toLowerCase().includes(this.searchText.toLowerCase());            })
+        //search
+        const filterEmployee = this.searchText === "" ? this.employees : this.employees.filter((element)=>{
+          return element.FirstName.toLowerCase().includes(this.searchText.toLowerCase());            
+        })
+        this.collectionSize = this.employees.length;
+
+        //pagination
+        this.EMPLOYEES = filterEmployee.map((item, key)=>({id: key + 1, ...item})).slice(
+          (this.page - 1 ) * this.pageSize,
+          (this.page - 1) * this.pageSize + this.pageSize
+        )
+        console.log('EMPLOYEES', this.EMPLOYEES);
       }
     })
+    
   }
 
   openModalDialogCustomClass(content: TemplateRef<any>) {
@@ -129,7 +145,7 @@ export class EmployeeComponent implements OnInit {
           } else if (item.errCode === 0){
             this.showSuccess(item.message);
           }
-          this.getEmployees();
+          this.refreshEmployeeAndSearch();
         },
       });
     }
@@ -196,7 +212,7 @@ export class EmployeeComponent implements OnInit {
 
   getEmployees() {
     this.employeeService.getEmployeeList().subscribe((item) => {
-      this.employees = item;
+      this.EMPLOYEES = item;
       console.log('employee', this.employees);
       // this.filteredEmployees = item;
     });
@@ -219,17 +235,13 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-
-  
-
-  deleteEmployee(id:number){
+  deleteEmployee(id:any){
     this.employeeService.deleteEmployee(id).subscribe({
       next: (res) => {
-        alert('delete employee successfulyy');
         this.toastr.success('delete employee successfully', 'Success', {
           timeOut: 3000,
         });
-        this.getEmployees();
+        this.refreshEmployeeAndSearch();
       },error: console.log
     })
   }
@@ -270,7 +282,11 @@ export class EmployeeComponent implements OnInit {
     return this.isSuperAdmin
   }
  
+  
+  
+  
 
+  
 
  
 

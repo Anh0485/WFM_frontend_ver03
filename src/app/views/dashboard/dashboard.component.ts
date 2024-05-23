@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import { CallAndAgentService } from 'src/app/services/callAndAgent.service';
+import { getStyle, hexToRgba } from '@coreui/utils';
 
 interface IUser {
   name: string;
@@ -22,7 +24,10 @@ interface IUser {
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private chartsData: DashboardChartsData) {
+  constructor(
+    private chartsData: DashboardChartsData,
+    private callAgentData : CallAndAgentService
+  ) {
   }
 
   public users: IUser[] = [
@@ -106,22 +111,109 @@ export class DashboardComponent implements OnInit {
     }
   ];
   public mainChart: IChartProps = {};
+  // public mainChart: {} = {}
   public chart: Array<IChartProps> = [];
   public trafficRadioGroup = new UntypedFormGroup({
     trafficRadio: new UntypedFormControl('Day')
   });
 
   ngOnInit(): void {
-    this.initCharts();
+    // this.initCharts();
+    this.callAndAgentChart();
   }
 
   initCharts(): void {
-    this.mainChart = this.chartsData.mainChart;
+      // this.mainChart = this.chartsData.CallAndAgentChart;
+      this.mainChart = this.chartsData.mainChart;
+      console.log('main Chart dashboard', this.mainChart);
   }
 
-  setTrafficPeriod(value: string): void {
-    this.trafficRadioGroup.setValue({ trafficRadio: value });
-    this.chartsData.initMainChart(value);
-    this.initCharts();
+  callAndAgentChart(){
+    const brandSuccess = getStyle('--cui-success') ?? '#4dbd74';
+    const brandInfo = getStyle('--cui-info') ?? '#20a8d8';
+    const brandInfoBg = hexToRgba(brandInfo, 10);
+    const brandDanger = getStyle('--cui-danger') || '#f86c6b';
+    this.callAgentData.getCallAndAgentByWeek().subscribe({
+      next : (item) => {
+        const call = item.callAndAgent.map((item:any)=> item.TotalCalls);
+        const agent = item.callAndAgent.map((item:any)=> item.TotalAgents);
+        this.mainChart = {
+          type: 'line',
+          data: {
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            datasets: [
+              {
+                data: call,
+                label: 'Call',
+                backgroundColor: hexToRgba(getStyle('--cui-info') ?? '#20a8d8', 10),
+                borderColor: getStyle('--cui-info') ?? '#20a8d8',
+                pointHoverBackgroundColor: getStyle('--cui-info') ?? '#20a8d8',
+                borderWidth: 2,
+                fill: true
+              },
+              {
+                data: agent,
+                label: 'Agent',
+                backgroundColor: 'transparent',
+                borderColor: getStyle('--cui-success') ?? '#4dbd74',
+                pointHoverBackgroundColor: '#fff'
+              }
+            ]
+          },
+          // options: {
+          //   maintainAspectRatio: false,
+          //   plugins: {
+          //     legend: {
+          //       display: false
+          //     },
+          //     tooltip: {
+          //       callbacks: {
+          //         labelColor: function (context: any) {
+          //           return {
+          //             backgroundColor: context.dataset.borderColor
+          //           };
+          //         }
+          //       }
+          //     }
+          //   },
+          //   scales: {
+          //     x: {
+          //       grid: {
+          //         drawOnChartArea: false
+          //       }
+          //     },
+          //     y: {
+          //       beginAtZero: true,
+          //       max: 10,
+          //       ticks: {
+          //         maxTicksLimit: 5,
+          //         stepSize: Math.ceil(10 / 5)
+          //       }
+          //     }
+          //   },
+          //   elements: {
+          //     line: {
+          //       tension: 0.5
+          //     },
+          //     point: {
+          //       radius: 0,
+          //       hitRadius: 10,
+          //       hoverRadius: 4,
+          //       hoverBorderWidth: 3
+          //     }
+            
+          //   }
+          // }
+      }
+      console.log('main chart', this.mainChart);
+    }
+    })
   }
+
+
+  // setTrafficPeriod(value: string): void {
+  //   this.trafficRadioGroup.setValue({ trafficRadio: value });
+  //   this.chartsData.initMainChart(value);
+  //   this.initCharts();
+  // }
 }

@@ -15,18 +15,16 @@ import {
   TabsModule
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
-import { ChartjsModule } from '@coreui/angular-chartjs';
-
-import { EmployeeComponent } from './employee.component';
+import { ChartjsComponent, ChartjsModule } from '@coreui/angular-chartjs';
 import { WidgetsModule } from '../../views/widgets/widgets.module';
-import { EmployeeRoutingModule } from './employee-routing.module';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbPaginationModule,  NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartsComponent } from './charts.component';
 @NgModule({
   imports: [
-    EmployeeRoutingModule,
+    ChartjsComponent,
     CardModule,
     NavModule,
     IconModule,
@@ -48,7 +46,10 @@ import { NgbPaginationModule,  NgbTypeaheadModule } from '@ng-bootstrap/ng-boots
     FormsModule,
     ToastrModule.forRoot(),
   ],
-  declarations: [EmployeeComponent]
+  exports:[
+    ChartsComponent
+  ],
+  declarations: [ChartsComponent]
 })
-export class EmployeeModule {
+export class ChartModule {
 }

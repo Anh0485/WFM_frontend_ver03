@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -21,6 +21,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 
 import { WidgetsModule } from '../widgets/widgets.module';
+import { ChartModule } from '../../components/charts/charts.module';
 
 @NgModule({
   imports: [
@@ -40,9 +41,13 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule
+    WidgetsModule,
+    ChartModule
   ],
-  declarations: [DashboardComponent]
+  declarations: [DashboardComponent],
+  providers:[
+    DatePipe
+  ]
 })
 export class DashboardModule {
 }

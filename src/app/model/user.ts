@@ -5,3 +5,4 @@ export class User {
     token: string = '';
     status?:string;
 }
+

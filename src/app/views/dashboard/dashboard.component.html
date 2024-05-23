@@ -1,180 +1,12 @@
 <app-widgets-dropdown></app-widgets-dropdown>
 <c-card class="mb-4">
-  <!-- <c-card-body>
-    <c-row>
-      <c-col sm="5">
-        <h4 class="card-title mb-0" id="traffic">Traffic</h4>
-        <div class="small text-medium-emphasis">January - December 2021</div>
-      </c-col>
-      <c-col class="d-none d-md-block" sm="7">
-        <button cButton class="float-end" color="primary">
-          <svg cIcon name="cilCloudDownload"></svg>
-        </button>
-        <form [formGroup]="trafficRadioGroup">
-          <c-button-group class="float-end me-3" role="group">
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="Day"
-            />
-            <label
-              (click)="setTrafficPeriod('Day')"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >Day</label>
-
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="Month"
-            />
-            <label
-              (click)="setTrafficPeriod('Month')"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >Month</label>
-
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="Year"
-            />
-            <label
-              (click)="setTrafficPeriod('Year')"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-            >Year</label>
-          </c-button-group>
-        </form>
-      </c-col>
-    </c-row>
-    <c-chart
-      [data]="mainChart.data"
-      [height]="300"
-      [ngStyle]="{ 'marginTop.px': 40 }"
-      [options]="mainChart.options"
-      [type]="mainChart.type"
-    >
-      Main chart
-    </c-chart>
-  </c-card-body> -->
   <c-card-body>
     <c-row>
-      <c-col sm="6">
-        <c-row>
-          <c-col sm="6">
-            <h4 class="card-title mb-0" id="callAndAgent">Call and agent</h4>
-            <div class="small text-medium-emphasis">3/05/2024 - 10/05/2024</div>  
-          </c-col>
-          <c-col sm="6">
-            <form [formGroup]="trafficRadioGroup">
-              <c-button-group class="float-end me-3" role="group">
-                <input
-                  class="btn-check"
-                  formControlName="trafficRadio"
-                  type="radio"
-                  value="Day"
-                />
-                <label
-                  (click)="setTrafficPeriod('Day')"
-                  cButton
-                  cFormCheckLabel
-                  color="secondary"
-                  variant="outline"
-                >Day</label>
-    
-                <input
-                  class="btn-check"
-                  formControlName="trafficRadio"
-                  type="radio"
-                  value="Month"
-                />
-                <label
-                  (click)="setTrafficPeriod('Month')"
-                  cButton
-                  cFormCheckLabel
-                  color="secondary"
-                  variant="outline"
-                >Month</label>
-    
-                <input
-                  class="btn-check"
-                  formControlName="trafficRadio"
-                  type="radio"
-                  value="Year"
-                />
-                <label
-                  (click)="setTrafficPeriod('Year')"
-                  cButton
-                  cFormCheckLabel
-                  color="secondary"
-                  variant="outline"
-                >Year</label>
-              </c-button-group>
-            </form>
-          </c-col>
-        </c-row>
-        <c-chart
-        [data]="mainChart.data"
-        [height]="300"
-        [ngStyle]="{ 'marginTop.px': 40 }"
-        [options]="mainChart.options"
-        [type]="mainChart.type"
-      >
-        Main chart
-      </c-chart>
-      </c-col>
+        <app-charts></app-charts>
     </c-row>
-  
+
   </c-card-body>
-  <c-card-footer>
-    <c-row class="text-center" [md]="5" [xs]="1">
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">Visits</div>
-        <strong>29.703 Users (40%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar color="success" value="40"></c-progress-bar>
-        </c-progress>
-      </c-col>
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">Unique</div>
-        <strong>24.093 Users (20%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar color="info" value="20"></c-progress-bar>
-        </c-progress>
-      </c-col>
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">Page views</div>
-        <strong>78.706 Views (60%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar color="warning" value="60"></c-progress-bar>
-        </c-progress>
-      </c-col>
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">New Users</div>
-        <strong>22.123 Users (80%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar color="danger" value="80"></c-progress-bar>
-        </c-progress>
-      </c-col>
-      <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">Bounce Rate</div>
-        <strong>Average Rate (40.15%)</strong>
-        <c-progress class="mt-2" thin>
-          <c-progress-bar value="40"></c-progress-bar>
-        </c-progress>
-      </c-col>
-    </c-row>
-  </c-card-footer>
+
 </c-card>
 
 <app-widgets-brand [withCharts]="true"></app-widgets-brand>
@@ -188,17 +20,13 @@
           <c-col md="6" xl="6" xs="12">
             <c-row>
               <c-col sm="6">
-                <div
-                  class="border-start border-start-4 border-start-info py-1 px-3 mb-3"
-                >
+                <div class="border-start border-start-4 border-start-info py-1 px-3 mb-3">
                   <div class="text-medium-emphasis small">New Clients</div>
                   <div class="fs-5 fw-semibold">9,123</div>
                 </div>
               </c-col>
               <c-col sm="6">
-                <div
-                  class="border-start border-start-4 border-start-danger py-1 px-3 mb-3"
-                >
+                <div class="border-start border-start-4 border-start-danger py-1 px-3 mb-3">
                   <div class="text-medium-emphasis small">
                     Recurring Clients
                   </div>
@@ -415,13 +243,7 @@
               </div>
             </div>
             <div class="divider d-flex justify-content-center">
-              <button
-                cButton
-                class="text-muted btn-link"
-                color="transparent"
-                size="sm"
-                type="button"
-              >
+              <button cButton class="text-muted btn-link" color="transparent" size="sm" type="button">
                 <svg cIcon name="cil-options"></svg>
               </button>
             </div>
@@ -436,14 +258,7 @@
     <c-card class="mb-4">
       <c-card-header>Users</c-card-header>
       <c-card-body>
-        <table
-          [hover]="true"
-          [responsive]="true"
-          [striped]="true"
-          align="middle"
-          cTable
-          class="mb-0 border"
-        >
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
           <thead cTableColor="light">
             <tr>
               <th class="text-center">
@@ -459,11 +274,7 @@
           <tbody>
             <tr *ngFor="let user of users; index as i">
               <td class="text-center">
-                <c-avatar
-                  size="md"
-                  src="{{ user.avatar }}"
-                  status="{{ user.status }}"
-                ></c-avatar>
+                <c-avatar size="md" src="{{ user.avatar }}" status="{{ user.status }}"></c-avatar>
               </td>
               <td>
                 <div>{{ user.name }}</div>
@@ -474,13 +285,8 @@
                 </div>
               </td>
               <td class="text-center">
-                <svg
-                  cIcon
-                  id="{{ user.country + user.name }}"
-                  name="cif{{ user.country }}"
-                  size="xl"
-                  title="{{ user.country }}"
-                ></svg>
+                <svg cIcon id="{{ user.country + user.name }}" name="cif{{ user.country }}" size="xl"
+                  title="{{ user.country }}"></svg>
               </td>
               <td>
                 <div class="d-flex justify-content-between">
@@ -494,10 +300,7 @@
                   </div>
                 </div>
                 <c-progress thin>
-                  <c-progress-bar
-                    [value]="user.usage"
-                    color="{{ user.color }}"
-                  ></c-progress-bar>
+                  <c-progress-bar [value]="user.usage" color="{{ user.color }}"></c-progress-bar>
                 </c-progress>
               </td>
               <td class="text-center">
