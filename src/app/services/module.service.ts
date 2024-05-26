@@ -14,6 +14,10 @@ export class ModuleService {
    
   }
 
+  getAllModule():Observable<any>{
+    return this._http.get(`http://localhost:5000/api/module`)
+  }
+
   getModuleByModuleName(): Observable<any>{
     return this._http.get('http://localhost:5000/api/module/ModuleName');
   }
@@ -26,6 +30,8 @@ export class ModuleService {
     return this._http.get(`http://localhost:5000/api/module/getModuleAndPermission?AccountID=${id}`);
   }
 
+  createPermission(data:any): Observable<any>{
+    return this._http.post(`http://localhost:5000/api/module/createPermission`, data);
+  }
 
-  
 }

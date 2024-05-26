@@ -106,7 +106,7 @@
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body">
-    <form action="">
+    <form [formGroup]="createPermissionForm" >
       <div class="form-group">
         <label for="">Account</label>
         <table class="table table-striped">
@@ -121,17 +121,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr *ngFor="let item of accounts">
               <th scope="col">
-                1
-            </th>
-            <td>Admin10</td>
-            <td>Anh Pham</td>
-            <td>Admin</td>
-            <td>SAMSUNG</td>
-            <td>
-              <input type="checkbox" name="" id="">
-            </td>
+                {{item.AccountID}}
+              </th>
+              <td>{{item.username}}</td>
+              <td>
+                {{item.FullName}}
+              </td>
+              <td>{{item.RoleName}}</td>
+              <td>{{item.TenantName}}</td>
+              <td>
+                <input 
+                type="checkbox" 
+                [checked]="isSelected(item)"
+                (change)="toggleSelection($event, item)"
+                >
+              </td>
           </tr>
           </tbody>
         </table>
@@ -149,11 +155,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="col">1</th>
-              <td>Employee</td>
+            <tr *ngFor="let item of modules">
+              <th scope="col">{{item.ModuleID}}</th>
+              <td>{{item.ModuleName}}</td>
               <td>
-                <input type="checkbox" name="" id="">
+                <input 
+                  type="checkbox"
+                  [checked]="isSelected(item)"
+                  (change)="toggleSelection($event, item)"  
+                 >
               </td>
             </tr>
           </tbody>
@@ -163,9 +173,7 @@
         <label for="">Permission</label>
         <table class="table table-striped">
           <thead>
-              <tr>
-                  
-                  <th scope="col"  >No.</th>
+              <tr>           
                   <th scope="col"  >Add</th>
                   <th scope="col"  >View</th>
                   <th scope="col"  >Edit</th>
@@ -175,21 +183,20 @@
           </thead>
           <tbody>
             <tr>
-              <th>1</th>
               <td>
-                <input type="checkbox" name="" id="">
+                <input type="checkbox" formControlName="CanAdd" >
               </td>
               <td>
-                <input type="checkbox" name="" id="">
+                <input type="checkbox" formControlName="CanView" >
               </td>
               <td>
-                <input type="checkbox" name="" id="">
+                <input type="checkbox" formControlName="CanEdit" >
               </td>
               <td>
-                <input type="checkbox" name="" id="">
+                <input type="checkbox" formControlName="CanDelete" >
               </td>
               <td>
-                <input type="checkbox" name="" id="">
+                <input type="checkbox" formControlName="CanExport" >
               </td>
              
             </tr>
@@ -199,7 +206,7 @@
     
   <div class="modal-footer mt-1">
     <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
-    <button type="submit" class="btn btn-primary" >Save</button>
+    <button type="submit" class="btn btn-primary" (click)="modal.close(onSubmitCreatePermission())" >Save</button>
   </div>
     </form>
      

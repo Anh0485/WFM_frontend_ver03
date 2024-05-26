@@ -63,7 +63,7 @@ export const navItems: INavData[] = [
   {
     name: 'Permission',
     url: '/permission',
-    iconComponent: { name: 'cilCalendar'},
+    iconComponent: { name: 'cilList'},
     
   },
   // {
